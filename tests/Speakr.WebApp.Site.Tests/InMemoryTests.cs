@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using NUnit.Framework;
+using System.IO;
 
 namespace Speakr.WebApp.Site.Tests
 {
@@ -13,7 +14,10 @@ namespace Speakr.WebApp.Site.Tests
         [SetUp]
         public void SetupInMemoryHost()
         {
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            _server = new TestServer(
+                new WebHostBuilder()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>());
             _client = _server.CreateClient();
         }
 
