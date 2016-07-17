@@ -1,5 +1,9 @@
 {
     "version": "1.1.0-*",
+    
+    "buildOptions": {
+        "copyToOutput": { "include": [ "appsettings.json" ] }
+    },
 
     "dependencies": {
         "Speakr.WebApp.Site": {
