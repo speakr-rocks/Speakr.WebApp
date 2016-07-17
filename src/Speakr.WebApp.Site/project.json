@@ -29,7 +29,6 @@
   },
 
     "buildOptions": {
-        "copyToOutput": "appsettings.json",
         "emitEntryPoint": true,
         "preserveCompilationContext": true
     },
