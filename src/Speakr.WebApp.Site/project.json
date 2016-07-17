@@ -28,10 +28,11 @@
     }
   },
 
-  "buildOptions": {
-    "emitEntryPoint": true,
-    "preserveCompilationContext": true
-  },
+    "buildOptions": {
+        "copyToOutput": "appsettings.json",
+        "emitEntryPoint": true,
+        "preserveCompilationContext": true
+    },
 
   "runtimeOptions": {
     "configProperties": {
