@@ -3,11 +3,21 @@
     <title>Speakr</title>
 </head>
 <body>
+    
     <h1>Help rate our speakers!</h1>
     <h2>Rating our speakers helps the community</h2>
-    <form>
-        Speaker Code: <input type="text" name="talkId">
-        <input type="submit" value="Submit">
-    </form>
+
+    @using (Html.BeginForm("GetRatingForm", "Home", FormMethod.Get))
+    {
+        <div>
+            @Html.Label("Talk Id:")
+            @Html.Editor("talkId")
+            @Html.ValidationMessage("InvalidTalkId")
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    }
+
 </body>
 </html>
