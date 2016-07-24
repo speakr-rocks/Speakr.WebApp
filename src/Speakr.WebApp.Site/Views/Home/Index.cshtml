@@ -1,23 +1,11 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Speakr</title>
-</head>
-<body>
-    
-    <h1>Help rate our speakers!</h1>
-    <h2>Rating our speakers helps the community</h2>
+﻿@{
+    ViewBag.Title = "Home";
+}
 
-    @using (Html.BeginForm("GetRatingForm", "Home", FormMethod.Get))
-    {
-        <div>
-            @Html.Label("Talk Id:")
-            @Html.Editor("talkId")
-            @Html.ValidationMessage("InvalidTalkId")
-        </div>
-        <div>
-            <input type="submit" value="Submit">
-        </div>
-    }
+<h1>Help rate our speakers!</h1>
+<h2>Rating our speakers helps the community</h2>
 
-</body>
-</html>
+@Html.Partial("_getRatingForm")
+@*@Html.Partial("_loginForm")*@
+
+
