@@ -5,7 +5,9 @@
 <h1>Help rate our speakers!</h1>
 <h2>Rating our speakers helps the community</h2>
 
-@Html.Partial("_getRatingForm")
+@Html.Partial("_getReviewForm")
 @*@Html.Partial("_loginForm")*@
 
-
+@section Footer {
+    @await Component.InvokeAsync("Footer")
+}

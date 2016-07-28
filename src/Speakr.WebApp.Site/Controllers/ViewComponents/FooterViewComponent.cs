@@ -7,7 +7,6 @@ namespace Speakr.WebApp.Site.Controllers.ViewComponents
     {
         public FooterViewComponent()
         {
-
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
