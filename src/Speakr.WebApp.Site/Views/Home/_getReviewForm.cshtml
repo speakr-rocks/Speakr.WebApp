@@ -1,0 +1,14 @@
+﻿@model GetReviewFormViewModel
+<form asp-controller="Home" asp-action="CheckTalkIdCode" method="post">
+    
+    @if (Model != null && Model.HasErrors)
+    {
+        <div>@Model.TalkIdErrorMessage</div>
+    }
+
+    <label asp-for="TalkId"></label>
+    <input asp-for="TalkId" />
+    <input type="submit" value="Submit!" /> <br />
+    
+    <span asp-validation-for="TalkId"></span>
+</form>

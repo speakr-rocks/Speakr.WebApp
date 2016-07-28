@@ -1,31 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Speakr.WebApp.Site.ViewModels.Home;
 
 namespace Speakr.WebApp.Controllers
 {
-    [Route("/"), Route("Home")]
+    [Route("/")]
     public class HomeController : Controller
     {
         [Route("")]
-        public IActionResult Index(string Error = null)
+        public IActionResult Index()
         {
-            if (Error == "InvalidTalkId")
-            {
-                ModelState.AddModelError("InvalidTalkId", "Please enter a valid talk Id");
-            }
-            return View();
+            return View("Index");
         }
 
-        [HttpGet]
-        [Route("GetRatingForm")]
-        public IActionResult GetRatingForm(string talkId)
+        [Route("TalkNotFound")]
+        public IActionResult TalkNotFound(string TalkId)
         {
-            // If talkid returns 404 from client:
-            if (!talkId.Equals("1234"))
+            var model = new GetReviewFormViewModel()
             {
-                return RedirectToAction("Index", new { Error = "InvalidTalkId" });
+                TalkId = TalkId,
+                TalkIdErrorMessage = "Talk not found"
+            };
+
+            return View("Index", model);
+        }
+
+        [HttpPost]
+        public IActionResult CheckTalkIdCode(GetReviewFormViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "reviewform", new { TalkId = model.TalkId });
             }
 
-            return RedirectToAction("DisplayForm", "Ratings", new { talkId = talkId });
+            return View("Index", model);
         }
     }
 }
