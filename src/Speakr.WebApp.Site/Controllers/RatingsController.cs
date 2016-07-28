@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-
-namespace Speakr.WebApp.Site.Controllers
+namespace Speakr.WebApp.Site.Controllers.ViewComponents
 {
     [Route("ratings")]
     public class RatingsController : Controller
     {
-        [Route("DisplayForm")]
-        public IActionResult DisplayForm(int talkId)
+        [HttpGet]
+        [Route("form")]
+        public IActionResult RatingForm(string id)
         {
-            return Content("Display Form " + talkId);
+            return View("Index");
         }
     }
 }

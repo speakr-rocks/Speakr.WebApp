@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E4AF7966-9937-46A5-99AE-C837168F29ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E4AF7966-9937-46A5-99AE-C837168F29ED}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Speakr.WebApp.Site", "src\Speakr.WebApp.Site\Speakr.WebApp.Site.xproj", "{85A659FE-DBC8-4B65-9D8B-EDE9B04C2DBA}"
 EndProject
