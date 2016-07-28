@@ -19,8 +19,9 @@ namespace Speakr.WebApp.Controllers
         {
             if(ModelState.IsValid)
             {
-                return Content("Talk id is:" + model.TalkId);
+                return RedirectToAction("form", "ratings", new { TalkId = model.TalkId });
             }
+
             return View("Index");
         }
     }

@@ -1,16 +1,4 @@
-﻿@*@using (Html.BeginForm("GetRatingForm", "Home", FormMethod.Get))
-{
-    <div>
-        @Html.Label("Talk Id:")
-        @Html.Editor("talkId")
-        @Html.ValidationMessage("InvalidTalkId")
-    </div>
-    <div>
-        <input type="submit" value="Submit">
-    </div>
-}*@
-
-@model Speakr.WebApp.Site.ViewModels.Home.CheckTalkIdViewModel
+﻿@model Speakr.WebApp.Site.ViewModels.Home.CheckTalkIdViewModel
 
 <form method="post" asp-controller="/" asp-action="CheckTalkIdCode">
     <div>
