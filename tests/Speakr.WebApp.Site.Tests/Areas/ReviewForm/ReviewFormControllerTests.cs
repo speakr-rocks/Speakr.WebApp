@@ -40,6 +40,30 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
             Assert.That(actionResult.ControllerName, Is.EqualTo("Home"));
         }
 
+        [Test]
+        [Ignore("TODO: Write this test when model has DataAnotations")]
+        public void PostingReviewFormRedirectsIfModelIsNotValid()
+        {
+
+        }
+
+        [Test]
+        public void PostingReviewFormRedirectsIfSavedCorrectly()
+        {
+            var model = new ReviewFormViewModel()
+            {
+                SpeakerName = "Joao",
+                TalkId = "12345",
+                TalkName = "TestTalk"
+            };
+
+            var controller = new ReviewFormController();
+            var actionResult = (ViewResult)controller.Index(model);
+
+            Assert.That(actionResult, Is.Not.Null);
+            Assert.That(actionResult.ViewName, Is.EqualTo("_reviewFormSavedSuccessfully"));
+        }
+
         private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetReviewFormViewModel model)
         {
             var validationErrors = ViewModelValidation.Validate(model);

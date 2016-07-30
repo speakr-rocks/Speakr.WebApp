@@ -6,6 +6,7 @@ namespace Speakr.WebApp.Site.Controllers
     [Route("reviewform")]
     public class ReviewFormController : Controller
     {
+        [HttpGet]
         [Route("")]
         public IActionResult Index(string TalkId)
         {
@@ -17,6 +18,21 @@ namespace Speakr.WebApp.Site.Controllers
 
             // If api returns 200, it'll have a questionnaire form:
             var model = new ReviewFormViewModel();
+
+            return View("Index", model);
+        }
+
+        [HttpPost]
+        [Route("")]
+        public IActionResult Index(ReviewFormViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return View("_reviewFormSavedSuccessfully");
+            }
+
+            // If Api returns fail
+            // Redirect to view and tell user to try later
 
             return View("Index", model);
         }
