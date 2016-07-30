@@ -28,8 +28,11 @@ namespace Speakr.WebApp.Site.Controllers
         {
             if (ModelState.IsValid)
             {
-                return Content("Posting to API, Thank you!");
+                return View("_reviewFormSavedSuccessfully");
             }
+
+            // If Api returns fail
+            // Redirect to view and tell user to try later
 
             return View("Index", model);
         }
