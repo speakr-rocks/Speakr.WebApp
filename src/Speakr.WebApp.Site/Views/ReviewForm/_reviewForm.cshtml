@@ -1,45 +1,49 @@
-﻿<form asp-controller="RaviewForm" asp-action="SubmitReview" method="post">
-    <input type="hidden" name="TalkId" value="@Model.TalkId">
+﻿@model ReviewFormViewModel
+@*<form asp-controller="reviewform" asp-action="Index" method="post" >*@
+@using (Html.BeginForm(Html.BeginForm("Index", "ReviewForm", FormMethod.Post, new { submit = Model })))
+{
+    @Html.HiddenFor(m => m.TalkId)
 
-    <label>Did you enjoy the talk?</label><br />
-    <input type="radio" name="enjoyrating" value="angry">Angry
-    <input type="radio" name="enjoyrating" value="sad">Sad
-    <input type="radio" name="enjoyrating" value="meh">Meh
-    <input type="radio" name="enjoyrating" value="happy">Happy
-    <input type="radio" name="enjoyrating" value="laughing">TearEyedLaugh
+    <div>
+        @for (int i = 0; i < Model.Questionnaire.Count; i++)
+        {
+            @switch (Model.Questionnaire[i].ResponseType)
+            {
+                case Speakr.WebApp.Site.Models.Talks.ResponseTypes.Text:
+                    @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+                    <label>@Model.Questionnaire[i].Question</label><br />
+                    @Html.TextAreaFor(q => Model.Questionnaire[i].Answer)
+                    <br />
+                    break;
 
-    <br />
-    
-    <label>How would you rate this talk?</label><br />
-    <input type="radio" name="talkrating" value="1">1
-    <input type="radio" name="talkrating" value="2">2
-    <input type="radio" name="talkrating" value="3">3
-    <input type="radio" name="talkrating" value="4">4
-    <input type="radio" name="talkrating" value="5">5
-    
-    <br />
+                case Speakr.WebApp.Site.Models.Talks.ResponseTypes.Emoji:
+                    @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+                    <label>@Model.Questionnaire[i].Question</label><br />
+                    @Html.TextAreaFor(q => Model.Questionnaire[i].Answer)
+                    <br />
+                    break;
 
-    <label>Did you learn anything useful?</label><br />
-    <input type="radio" name="useful" value="true">Yes
-    <input type="radio" name="useful" value="false">No
+                case Speakr.WebApp.Site.Models.Talks.ResponseTypes.Rating:
+                    @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+                    <label>@Model.Questionnaire[i].Question</label><br />
+                    @Html.TextAreaFor(q => Model.Questionnaire[i].Answer)
+                    <br />
+                    break;
 
-    <br />
-    
-    <label>Would you recommend this talk to a friend/colleague?</label><br />
-    <input type="radio" name="willrecommend" value="true">Yes
-    <input type="radio" name="willrecommend" value="false">No
-    
-    <br />
-    
-    <label>Do you have any suggestions to improve this talk?</label><br />
-    <textarea></textarea><br />
+                case Speakr.WebApp.Site.Models.Talks.ResponseTypes.YesNo:
+                    @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+                    <label>@Model.Questionnaire[i].Question</label><br />
+                    <label>Yes: </label> @Html.RadioButtonFor(q => Model.Questionnaire[i].Answer, "Yes")
+                    <label>No: </label> @Html.RadioButtonFor(q => Model.Questionnaire[i].Answer, "No")
+                    <br />
+                    break;
 
-    <br />
-    
-    <label>Any other comments?</label><br />
-    <textarea></textarea><br />
-
-    <br />
+                default:
+                    break;
+            }
+        }
+    </div>
 
     <input type="submit" value="Submit!" />
-</form>
+}
+@*</form>*@

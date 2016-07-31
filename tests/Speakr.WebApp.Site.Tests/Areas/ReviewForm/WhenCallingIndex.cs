@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.WebApp.Controllers;
+using Speakr.WebApp.Site.Clients.TalksApi;
 using Speakr.WebApp.Site.Controllers;
+using Speakr.WebApp.Site.Services.ReviewForm;
 using Speakr.WebApp.Site.Tests.Helpers;
 using Speakr.WebApp.Site.ViewModels.Home;
 using Speakr.WebApp.Site.ViewModels.ReviewForm;
@@ -20,8 +22,8 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         [Test]
         public void AndTalkIsFound_ThenIndexShouldNotReturnNull()
         {
-            var controller = new ReviewFormController();
-            var actionResult = (ViewResult)controller.Index("12345");
+            var controller = new ReviewFormController(new ReviewFormService(new TalksApi()));
+            var actionResult = (ViewResult)controller.Index("12345").Result;
             var model = (ReviewFormViewModel)actionResult.Model;
 
             Assert.That(actionResult, Is.Not.Null);
@@ -32,8 +34,8 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         [Test]
         public void AndTalkIsNotFound_ThenShouldRedirectWithError()
         {
-            var controller = new ReviewFormController();
-            var actionResult = (RedirectToActionResult)controller.Index("abcde");
+            var controller = new ReviewFormController(new ReviewFormService(new TalksApi()));
+            var actionResult = (RedirectToActionResult)controller.Index("abcde").Result;
 
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ActionName, Is.EqualTo("TalkNotFound"));
@@ -43,19 +45,15 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         [Test]
         public void AndTalkIsPosted_ThenShouldRedirectSuccessfully()
         {
-            var model = new ReviewFormViewModel()
-            {
-                SpeakerName = "Joao",
-                TalkId = "12345",
-                TalkName = "TestTalk"
-            };
-
-            var controller = new ReviewFormController();
-            var actionResult = (ViewResult)controller.Index(model);
-
-            Assert.That(actionResult, Is.Not.Null);
-            Assert.That(actionResult.ViewName, Is.EqualTo("_reviewFormSavedSuccessfully"));
+            
         }
+
+        [Test]
+        public void ViewModelObjectsGetMappedCorrectly()
+        {
+
+        }
+
 
         private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetReviewFormViewModel model)
         {
