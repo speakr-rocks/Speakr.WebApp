@@ -13,14 +13,14 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
         [TestCase("12345")]
         public void CheckTalkId_ShouldRedirectForValidTalkIds(string talkId)
         {
-            var model = new GetReviewFormViewModel() { TalkId = talkId };
+            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
 
             var controller = new HomeController();
             var actionResult = (RedirectToActionResult)controller.CheckTalkIdCode(model);
 
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(actionResult.ControllerName, Is.EqualTo("reviewform"));
+            Assert.That(actionResult.ControllerName, Is.EqualTo("feedback"));
             Assert.That(actionResult.RouteValues["TalkId"], Is.EqualTo("12345"));
         }
 
@@ -28,7 +28,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
         [TestCase("123", "Talk ID's have at least 4 characters")]
         public void CheckTalkId_ShouldHandleInvalidValues(string talkId, string expectedMessage)
         {
-            var model = new GetReviewFormViewModel() { TalkId = talkId };
+            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
             var controller = new HomeController();
 
             var validationErrors = CheckForValidationErrors(controller, model);
@@ -42,7 +42,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
             Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
         }
 
-        private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetReviewFormViewModel model)
+        private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetFeedbackFormViewModel model)
         {
             var validationErrors = ViewModelValidation.Validate(model);
 

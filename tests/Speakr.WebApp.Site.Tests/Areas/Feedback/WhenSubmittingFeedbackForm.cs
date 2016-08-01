@@ -1,5 +1,13 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using Speakr.WebApp.Site.Clients.TalksApi;
+using Speakr.WebApp.Site.Clients.TalksApi.DTO;
+using Speakr.WebApp.Site.Controllers;
+using Speakr.WebApp.Site.Services.ReviewForm;
+using Speakr.WebApp.Site.Tests.Helpers;
+using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
@@ -8,155 +16,84 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         [SetUp]
         public void Setup()
         {
-
         }
 
         [Test]
-        public void AndViewModelValidates_ThenResponseIsMappedCorrectly()
+        [Ignore("Not using MVC postback for validation yet")]
+        public void AndFeedbackIsPosted_ThenViewModelIsValidatedCorrectly()
         {
-            //var id = "12345";
+            var model = new FeedbackViewModel();
+            var expectedMessage = "Please provide an answer to this question";
 
-            //var baseform = TalksApiMockResponse.GetTalkById(id);
+            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
 
-            //var submittedReview = new SubmittedReviewForm();
-            //submittedReview.TalkId = id;
-            //submittedReview.Questionnaire = GenerateValidQuestionnaireResponse();
+            var validationErrors = CheckForValidationErrors(controller, model);
 
-            //var expectedModel = TalksApiMockResponse.ReviewFormResponseModelMock(id);
+            var actionResult = (ViewResult)controller.Index(model).Result;
+            var modelState = controller.ModelState;
 
-            //var controller = new FeedbackController(new ReviewFormService(new TalksApi()));
-            //var actionResult = (ViewResult)controller.Index(submittedReview).Result;
+            Assert.That(validationErrors.Count, Is.EqualTo(1));
+            Assert.That(validationErrors[0].ErrorMessage, Is.EqualTo(expectedMessage));
 
-            //Assert.That(actionResult, Is.Not.Null);
-            //Assert.That(actionResult.ViewName, Is.EqualTo("_reviewFormSavedSuccessfully"));
+            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
         }
-
-        
 
         [Test]
-        public void AndViewModelIsInvalid_ThenResponseIsMappedCorrectly()
+        public void AndFeedbackIsPosted_ThenShouldRedirectSuccessfully()
         {
-            //var id = "12345";
+            var model = CreateFeedbackViewModelMock();
+            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
 
-            //var baseform = TalksApiMockResponse.GetTalkById(id);
+            var actionResult = (ViewResult)controller.Index(model).Result;
 
-            //var model = new ReviewFormViewModel();
-            //model.TalkDetails = baseform.TalkDetails;
-            //model.Questionnaire = baseform.Questionnaire;
-
-            //var expectedModel = TalksApiMockResponse.ReviewFormResponseModelMock(id);
-
-            //var controller = new ReviewFormController(new ReviewFormService(new TalksApi()));
-            //var actionResult = (ViewResult)controller.Index(model).Result;
-
-            //Assert.That(actionResult, Is.Not.Null);
-            //Assert.That(actionResult.ViewName, Is.EqualTo("_reviewFormSavedSuccessfully"));
+            Assert.That(actionResult.ViewName, Is.EqualTo("_feedbackSavedSuccessfully"));
         }
 
-        private IList<Question> GenerateValidQuestionnaireResponse()
+        private static FeedbackViewModel CreateFeedbackViewModelMock()
         {
-            return new List<Question> {
-                new Question
-                {
-                    QuestionId = "Question-1",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            var temp = TalksApiMockResponse.GetTalkById("12345");
+            var model = new FeedbackViewModel()
+            {
+                TalkId = temp.TalkId,
+                TalkName = temp.TalkName,
+                SpeakerId = temp.SpeakerId,
+                SpeakerName = temp.SpeakerName,
+                Questionnaire = temp.Questionnaire
+            };
 
-                new Question
-                {
-                    QuestionId = "Question-2",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
-
-                new Question
-                {
-                    QuestionId = "Question-3",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
-
-                new Question
-                {
-                    QuestionId = "Question-4",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
-
-                new Question
-                {
-                    QuestionId = "Question-5",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
-
-                new Question
-                {
-                    QuestionId = "Question-6",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                }
-                };
+            return model;
         }
 
-        private IList<Question> GenerateExpectedMappedModel()
+        [Test]
+        [Ignore("Need mocking framework")]
+        public void AndFeedbackIsPosted_ThenResponseMappedCorrectly()
         {
-            return new List<Question> {
-                new Question
-                {
-                    QuestionId = "Question-1",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            var model = new FeedbackViewModel();
+            var expectedDTO = new FeedbackDTO();
 
-                new Question
-                {
-                    QuestionId = "Question-2",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            // Mock talksapi. Should have been called with expected DTO
+            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
 
-                new Question
-                {
-                    QuestionId = "Question-3",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            var validationErrors = CheckForValidationErrors(controller, model);
 
-                new Question
-                {
-                    QuestionId = "Question-4",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            var actionResult = (ViewResult)controller.Index(model).Result;
+            var modelState = controller.ModelState;
 
-                new Question
-                {
-                    QuestionId = "Question-5",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                },
+            //Assert.That(TalksApi, WasCalledWithParam(expectedDTO));
 
-                new Question
-                {
-                    QuestionId = "Question-6",
-                    QuestionText = "",
-                    Answer = "answer1",
-                    ResponseType = ResponseTypes.Text
-                }
-                };
+            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
+        }
+
+        private static IList<ValidationResult> CheckForValidationErrors(FeedbackController controller, FeedbackViewModel model)
+        {
+            var validationErrors = ViewModelValidation.Validate(model);
+
+            if (validationErrors.Count > 0)
+            {
+                controller.ViewData.ModelState.AddModelError(nameof(model.TalkId), validationErrors[0].ErrorMessage);
+            }
+
+            return validationErrors;
         }
     }
 }

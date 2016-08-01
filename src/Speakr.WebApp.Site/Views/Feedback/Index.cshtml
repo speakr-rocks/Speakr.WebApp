@@ -8,3 +8,7 @@
 <h2>By: @Model.SpeakerName</h2>
 
 @Html.Partial("_feedbackForm")
+
+@section Footer {
+    @await Component.InvokeAsync("Footer")
+}

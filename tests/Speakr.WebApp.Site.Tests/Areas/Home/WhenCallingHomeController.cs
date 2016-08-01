@@ -27,7 +27,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
         {
             var controller = new HomeController();
             var actionResult = (ViewResult)controller.TalkNotFound("12345");
-            var modelResult = (GetReviewFormViewModel)actionResult.Model;
+            var modelResult = (GetFeedbackFormViewModel)actionResult.Model;
 
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
