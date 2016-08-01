@@ -8,55 +8,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Home
 {
-    public class HomeControllerTests
+    public class WhenCallingCheckTalkId
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        [Test]
-        public void IndexShouldNotReturnNull()
-        {
-            var controller = new HomeController();
-            var actionResult = (ViewResult)controller.Index();
-
-            Assert.That(actionResult, Is.Not.Null);
-            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-        }
-
-        [Test]
-        public void TalkNotFoundReturnsModelWithErrorMessage()
-        {
-            var controller = new HomeController();
-            var actionResult = (ViewResult)controller.TalkNotFound("12345");
-            var modelResult = (GetReviewFormViewModel)actionResult.Model;
-
-            Assert.That(actionResult, Is.Not.Null);
-            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-            Assert.That(modelResult.TalkId, Is.EqualTo("12345"));
-            Assert.That(modelResult.TalkIdErrorMessage, Is.EqualTo("Talk not found"));
-        }
-
         [TestCase("12345")]
-        public void CheckTalkIdShouldRedirectForValidTalkIds(string talkId)
+        public void CheckTalkId_ShouldRedirectForValidTalkIds(string talkId)
         {
-            var model = new GetReviewFormViewModel() { TalkId = talkId};
+            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
 
             var controller = new HomeController();
             var actionResult = (RedirectToActionResult)controller.CheckTalkIdCode(model);
 
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ActionName, Is.EqualTo("Index"));
-            Assert.That(actionResult.ControllerName, Is.EqualTo("reviewform"));
+            Assert.That(actionResult.ControllerName, Is.EqualTo("feedback"));
             Assert.That(actionResult.RouteValues["TalkId"], Is.EqualTo("12345"));
         }
 
         [TestCase("", "Please enter your talk's ID")]
         [TestCase("123", "Talk ID's have at least 4 characters")]
-        public void CheckTalkIdShouldHandleInvalidValues(string talkId, string expectedMessage)
+        public void CheckTalkId_ShouldHandleInvalidValues(string talkId, string expectedMessage)
         {
-            var model = new GetReviewFormViewModel() { TalkId = talkId };
+            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
             var controller = new HomeController();
 
             var validationErrors = CheckForValidationErrors(controller, model);
@@ -70,7 +42,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
             Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
         }
 
-        private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetReviewFormViewModel model)
+        private static IList<ValidationResult> CheckForValidationErrors(HomeController controller, GetFeedbackFormViewModel model)
         {
             var validationErrors = ViewModelValidation.Validate(model);
 

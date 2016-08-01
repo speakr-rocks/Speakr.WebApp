@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Speakr.WebApp.Site.Clients.TalksApi;
+using Speakr.WebApp.Site.Services.Feedback;
+using Speakr.WebApp.Site.Services.ReviewForm;
 using System.IO;
 
 namespace Speakr.WebApp
@@ -22,6 +25,10 @@ namespace Speakr.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddScoped<ITalksApi, TalksApi>();
+
+            services.AddScoped<IFeedbackFormService, FeedbackFormService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -1,0 +1,52 @@
+﻿@model FeedbackViewModel
+@using Speakr.WebApp.Site.Clients.TalksApi
+
+<form asp-controller="feedback" asp-action="Index" method="post" >
+    @Html.HiddenFor(m => m.TalkId)
+    @Html.HiddenFor(m => m.TalkName)
+    @Html.HiddenFor(m => m.SpeakerId)
+    @Html.HiddenFor(m => m.SpeakerName)
+
+    <div>
+        @for (int i = 0; i < Model.Questionnaire.Count; i++)
+        {
+            @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+            @Html.HiddenFor(q => Model.Questionnaire[i].QuestionText)
+            @Html.HiddenFor(q => Model.Questionnaire[i].ResponseType)
+            @Html.HiddenFor(q => Model.Questionnaire[i].IsRequired)
+
+            <label>@Model.Questionnaire[i].QuestionText</label><br />
+
+            @switch (Model.Questionnaire[i].ResponseType)
+            {
+                case ResponseTypes.Text:
+                    <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired"></textarea>
+                    break;
+
+                case ResponseTypes.Emoji:
+                    <textarea asp-for="@Model.Questionnaire[i].Answer"></textarea>
+                    break;
+
+                case ResponseTypes.Rating:
+                    <textarea asp-for="@Model.Questionnaire[i].Answer"></textarea>
+                    break;
+
+                case ResponseTypes.YesNo:
+                    <label>Yes: </label>
+                    <input type="radio" asp-for="@Model.Questionnaire[i].Answer" 
+                           required="@Model.Questionnaire[i].IsRequired" value="Yes">
+                    
+                    <label>No: </label>
+                    <input type="radio" asp-for="@Model.Questionnaire[i].Answer" value="No">
+                    break;
+
+                default:
+                    break;
+            }
+            <span asp-validation-for="@Model.Questionnaire[i].Answer"></span>
+            <br />
+        }
+    </div>
+
+    <input type="submit" value="Submit!" />
+</form>
