@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Speakr.WebApp.Site.Models.ReviewForm;
-using Speakr.WebApp.Site.Services.ReviewForm;
+using Speakr.WebApp.Site.Services.Feedback;
+using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Controllers
 {
-    [Route("reviewform")]
-    public class ReviewFormController : Controller
+    [Route("feedback")]
+    public class FeedbackController : Controller
     {
-        private IReviewFormService _reviewFormService;
+        private IFeedbackFormService _feedbackFormService;
 
-        public ReviewFormController(IReviewFormService reviewFormService)
+        public FeedbackController(IFeedbackFormService feedbackFormService)
         {
-            _reviewFormService = reviewFormService;
+            _feedbackFormService = feedbackFormService;
         }
 
         [HttpGet]
@@ -26,26 +26,24 @@ namespace Speakr.WebApp.Site.Controllers
             }
 
             // If api returns 200, it'll have a questionnaire form:
-            var viewModel = await _reviewFormService.GetReviewFormForTalkId(talkId); 
+            var viewModel = await _feedbackFormService.GetReviewFormForTalkId(talkId); 
             
             return View("Index", viewModel);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Index(SubmittedReviewForm submittedReview)
+        public async Task<IActionResult> Index(FeedbackViewModel submittedReview)
         {
             if (ModelState.IsValid)
             {
-                await _reviewFormService.PostReviewForm(submittedReview);
+                await _feedbackFormService.PostReviewForm(submittedReview);
 
                 // If Api returns fail
                 // Redirect to view and tell user to try later
 
-                return View("_reviewFormSavedSuccessfully");
+                return View("_feedbackSavedSuccessfully");
             }
-
-            await _reviewFormService.RegenerateReviewForm(submittedReview);
 
             return View("Index", submittedReview);
         }

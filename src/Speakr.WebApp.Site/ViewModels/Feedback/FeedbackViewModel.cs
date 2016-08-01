@@ -1,15 +1,15 @@
-﻿using Speakr.WebApp.Site.Models.ReviewForm;
+﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using System.Collections.Generic;
 
-namespace Speakr.WebApp.Site.ViewModels.ReviewForm
+namespace Speakr.WebApp.Site.ViewModels.Feedback
 {
-    public class ReviewFormViewModel
+    public class FeedbackViewModel
     {
         public string TalkId { get; set; }
         public string TalkName { get; set; }
         public string SpeakerId { get; set; }
         public string SpeakerName { get; set; }
 
-        public IList<ReviewFormQuestions> Questionnaire { get; set; }
+        public IList<Question> Questionnaire { get; set; }
     }
 }

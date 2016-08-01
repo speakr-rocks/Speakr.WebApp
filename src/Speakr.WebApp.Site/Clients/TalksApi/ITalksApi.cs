@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using Speakr.WebApp.Site.Models.ReviewForm;
-using Speakr.WebApp.Site.Models.Talks;
+﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
+using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public interface ITalksApi
     {
-        Task<TalksModel> GetTalkById(string talkId);
-        Task PostReviewResponse(string talkdId, ReviewFormResponse response);
+        Task<TalksDTO> GetTalkById(string talkId);
+        Task PostReviewResponse(string talkdId, FeedbackDTO response);
     }
 }

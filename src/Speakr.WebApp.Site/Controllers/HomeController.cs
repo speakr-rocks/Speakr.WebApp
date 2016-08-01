@@ -29,7 +29,7 @@ namespace Speakr.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "reviewform", new { TalkId = model.TalkId });
+                return RedirectToAction("Index", "feedback", new { TalkId = model.TalkId });
             }
 
             return View("Index", model);
