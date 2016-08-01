@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
 {
-    public class ReviewFormControllerTests
+    public class WhenCallingIndex
     {
         [SetUp]
         public void Setup()
@@ -18,7 +18,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         }
 
         [Test]
-        public void IndexShouldNotReturnNull()
+        public void AndTalkIsFound_ThenIndexShouldNotReturnNull()
         {
             var controller = new ReviewFormController();
             var actionResult = (ViewResult)controller.Index("12345");
@@ -30,7 +30,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         }
 
         [Test]
-        public void NotFoundTalkIdShouldRedirectWithError()
+        public void AndTalkIsNotFound_ThenShouldRedirectWithError()
         {
             var controller = new ReviewFormController();
             var actionResult = (RedirectToActionResult)controller.Index("abcde");
@@ -41,14 +41,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.ReviewForm
         }
 
         [Test]
-        [Ignore("TODO: Write this test when model has DataAnotations")]
-        public void PostingReviewFormRedirectsIfModelIsNotValid()
-        {
-
-        }
-
-        [Test]
-        public void PostingReviewFormRedirectsIfSavedCorrectly()
+        public void AndTalkIsPosted_ThenShouldRedirectSuccessfully()
         {
             var model = new ReviewFormViewModel()
             {
