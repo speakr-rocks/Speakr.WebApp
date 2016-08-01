@@ -15,7 +15,7 @@ namespace Speakr.WebApp.Controllers
         [Route("TalkNotFound")]
         public IActionResult TalkNotFound(string TalkId)
         {
-            var model = new GetReviewFormViewModel()
+            var model = new GetFeedbackFormViewModel()
             {
                 TalkId = TalkId,
                 TalkIdErrorMessage = "Talk not found"
@@ -25,7 +25,7 @@ namespace Speakr.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckTalkIdCode(GetReviewFormViewModel model)
+        public IActionResult CheckTalkIdCode(GetFeedbackFormViewModel model)
         {
             if (ModelState.IsValid)
             {

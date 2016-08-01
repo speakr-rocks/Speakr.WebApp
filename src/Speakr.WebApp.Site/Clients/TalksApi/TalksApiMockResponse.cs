@@ -7,7 +7,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
     {
         public static TalksDTO GetTalkById(string talkId)
         {
-            var Question = new List<Question>
+            var questionList = new List<Question>
             {
                 new Question
                 {
@@ -70,7 +70,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
                     TalkName = "My First Talk",
                     SpeakerId = "guid_speaker_id",
                     SpeakerName = "J-Wow",
-                    Questionnaire = Question
+                    Questionnaire = questionList
                 };
         }
 
@@ -87,6 +87,5 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 
             //return response;
         //}
-
     }
 }

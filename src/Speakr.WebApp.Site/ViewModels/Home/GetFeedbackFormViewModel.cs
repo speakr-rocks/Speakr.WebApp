@@ -2,7 +2,7 @@
 
 namespace Speakr.WebApp.Site.ViewModels.Home
 {
-    public class GetReviewFormViewModel
+    public class GetFeedbackFormViewModel
     {
         [MaxLength(24)]
         [Display(Name = "Talk Id:")]
