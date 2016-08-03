@@ -2,11 +2,14 @@
     ViewBag.Title = "Speakr Rocks!";
 }
 
-<h1>Help rate our speakers!</h1>
-<h2>Rating our speakers helps the community</h2>
+<h2>Help rate our speakers!</h2>
+<h4>Great feedback for our speakers goes a long way to improve your community</h4>
 
-@Html.Partial("_getReviewForm")
-@*@Html.Partial("_loginForm")*@
+<div class="col-md-3 center-block">
+    @Html.Partial("_getFeedbackForm")
+    @*@Html.Partial("_loginForm")*@
+</div>
+
 
 @section Footer {
     @await Component.InvokeAsync("Footer")

@@ -1,15 +1,19 @@
 ﻿@model GetFeedbackFormViewModel
 
 <form asp-controller="Home" asp-action="CheckTalkIdCode" method="post">
-    
-    @if (Model != null && Model.HasErrors)
-    {
-        <div>@Model.TalkIdErrorMessage</div>
-    }
 
-    <label asp-for="TalkId"></label>
-    <input asp-for="TalkId" />
-    <input type="submit" value="Submit!" /> <br />
-    
-    <span asp-validation-for="TalkId"></span>
+    @*@if (Model != null && Model.HasErrors) {
+            <p class="alert alert-danger">@Model.TalkIdErrorMessage</p>
+        }*@
+
+    <span asp-validation-for="TalkId" class="alert alert-danger"></span>
+
+    <div class="input-group">
+        <label asp-for="TalkId" class="input-group-addon" id="basic-addon1"></label>
+        <input asp-for="TalkId" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Please enter your Talk Id">
+        <span class="input-group-btn">
+            <input type="submit" class="btn btn-primary" value="Submit!" />
+        </span>
+    </div>
+
 </form>
