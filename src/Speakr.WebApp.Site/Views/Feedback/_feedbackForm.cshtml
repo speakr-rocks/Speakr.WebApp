@@ -1,52 +1,69 @@
 ﻿@model FeedbackViewModel
 @using Speakr.WebApp.Site.Clients.TalksApi
 
-<form asp-controller="feedback" asp-action="Index" method="post" >
+<form asp-controller="feedback" asp-action="Index" method="post">
     @Html.HiddenFor(m => m.TalkId)
     @Html.HiddenFor(m => m.TalkName)
     @Html.HiddenFor(m => m.SpeakerId)
     @Html.HiddenFor(m => m.SpeakerName)
 
-    <div>
-        @for (int i = 0; i < Model.Questionnaire.Count; i++)
-        {
-            @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
-            @Html.HiddenFor(q => Model.Questionnaire[i].QuestionText)
-            @Html.HiddenFor(q => Model.Questionnaire[i].ResponseType)
-            @Html.HiddenFor(q => Model.Questionnaire[i].IsRequired)
+    @for (int i = 0; i < Model.Questionnaire.Count; i++)
+    {
+        @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
+        @Html.HiddenFor(q => Model.Questionnaire[i].QuestionText)
+        @Html.HiddenFor(q => Model.Questionnaire[i].ResponseType)
+        @Html.HiddenFor(q => Model.Questionnaire[i].IsRequired)
 
-            <label>@Model.Questionnaire[i].QuestionText</label><br />
+        <div class="form-group">
 
-            @switch (Model.Questionnaire[i].ResponseType)
-            {
-                case ResponseTypes.Text:
-                    <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired"></textarea>
-                    break;
+            <label class="control-label">@Model.Questionnaire[i].QuestionText</label>
 
-                case ResponseTypes.Emoji:
-                    <textarea asp-for="@Model.Questionnaire[i].Answer"></textarea>
-                    break;
+            <div>
+                @switch (Model.Questionnaire[i].ResponseType)
+                {
+                    case ResponseTypes.Text:
+                        <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
+                        break;
 
-                case ResponseTypes.Rating:
-                    <textarea asp-for="@Model.Questionnaire[i].Answer"></textarea>
-                    break;
+                    case ResponseTypes.Emoji:
+                        <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
+                        break;
 
-                case ResponseTypes.YesNo:
-                    <label>Yes: </label>
-                    <input type="radio" asp-for="@Model.Questionnaire[i].Answer" 
-                           required="@Model.Questionnaire[i].IsRequired" value="Yes">
-                    
-                    <label>No: </label>
-                    <input type="radio" asp-for="@Model.Questionnaire[i].Answer" value="No">
-                    break;
+                    case ResponseTypes.Rating:
+                        <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
+                        break;
 
-                default:
-                    break;
-            }
-            <span asp-validation-for="@Model.Questionnaire[i].Answer"></span>
+                    case ResponseTypes.YesNo:
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-success">
+                                <input type="radio"
+                                       asp-for="@Model.Questionnaire[i].Answer"
+                                       required="@Model.Questionnaire[i].IsRequired" value="Yes" />
+                                Yes
+                            </label>
+                            <label class="btn btn-danger">
+                                <input type="radio"
+                                       asp-for="@Model.Questionnaire[i].Answer"
+                                       required="@Model.Questionnaire[i].IsRequired" value="No" />
+                                No
+                            </label>
+                        </div>
+                        break;
+
+                    default:
+                        break;
+                }
+            </div>
+
+        </div>
+
+        <span asp-validation-for="@Model.Questionnaire[i].Answer"></span>
             <br />
-        }
-    </div>
+    }
 
-    <input type="submit" value="Submit!" />
+    <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+            <input type="submit" value="Submit!" class="btn btn-primary" />
+        </div>
+    </div>
 </form>
