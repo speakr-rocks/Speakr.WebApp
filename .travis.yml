@@ -34,5 +34,6 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     bucket: speakr-travisbuilds
     skip_cleanup: true
+    upload-dir: WebApp
     on:
         branch: production
