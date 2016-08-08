@@ -28,13 +28,10 @@ script:
   - dotnet build tests/Speakr.WebApp.Site.Tests
   - dotnet test tests/Speakr.WebApp.Site.Tests -f netcoreapp1.0
 
-before_deploy:
-  - pip install --user awscli
-
 deploy:
   - provider: s3
-    access_key_id: AWS_ACCESS_KEY
-    secret_access_key: AWS_SECRET_KEY
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
     bucket: Speakr-TravisBuilds
     skip_cleanup: true
     on:
