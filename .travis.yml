@@ -37,7 +37,7 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    region: eu-east-1
+    region: eu-west-1
     bucket: speakr-travisbuilds
     local_dir: CodeDeploy_Artifacts
     skip_cleanup: true
