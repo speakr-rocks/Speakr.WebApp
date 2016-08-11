@@ -43,3 +43,12 @@ deploy:
     upload-dir: WebApp
     on:
         branch: production
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: "speakr-travisbuilds"
+    key: WebApp/$(date +'WebApp-%F').zip
+    application: speakr-webapp-codedeploy
+    deployment_group: speakr-webapp-deploymentgroup
+    on:
+        branch: production
