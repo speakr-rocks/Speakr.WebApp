@@ -37,6 +37,7 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
+    region: eu-east-1
     bucket: speakr-travisbuilds
     local_dir: CodeDeploy_Artifacts
     skip_cleanup: true
@@ -49,6 +50,6 @@ deploy:
     bucket: "speakr-travisbuilds"
     key: WebApp/$(date +'WebApp-%F').zip
     application: speakr-webapp-codedeploy
-    deployment_group: speakr-webapp-deploymentgroup
+    deployment_group: speakr-webapp-codedeploy-deploymentgroup
     on:
         branch: production
