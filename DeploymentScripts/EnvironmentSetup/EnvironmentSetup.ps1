@@ -77,7 +77,7 @@ function _SetupCodeDeployApplication([string]$applicationName,[string]$serviceRo
 {
     $deploymentGroupName = ($applicationName + "-Fleet")
 
-    $existingApplication = (Get-CDApplicationList) | Where {$_ -eq $applicationName}
+    $existingApplication = (Get-CDApplicationList -Region $region) | Where {$_ -eq $applicationName}
 
     if ($existingApplication -ne $null)
     {
@@ -86,14 +86,14 @@ function _SetupCodeDeployApplication([string]$applicationName,[string]$serviceRo
     }
 
 
-    $applicationId = New-CDApplication -ApplicationName $applicationName
+    $applicationId = New-CDApplication -ApplicationName $applicationName -Region $region
 
     $ec2Tag = New-Object -TypeName Amazon.CodeDeploy.Model.EC2TagFilter
     $ec2Tag.Key = "Name"
     $ec2Tag.Type = "KEY_AND_VALUE"
     $ec2Tag.Value = $appName
 
-    $deploymentGroupId = New-CDDeploymentGroup -ApplicationName $applicationName -DeploymentGroupName $deploymentGroupName -Ec2TagFilter $ec2Tag -ServiceRoleArn $serviceRole
+    $deploymentGroupId = New-CDDeploymentGroup -ApplicationName $applicationName -DeploymentGroupName $deploymentGroupName -Ec2TagFilter $ec2Tag -ServiceRoleArn $serviceRole -Region $region
 
     ("CodeDeploy " + $applicationName + " application created")
 }

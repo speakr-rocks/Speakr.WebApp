@@ -50,6 +50,6 @@ deploy:
     bucket: "speakr-travisbuilds"
     key: WebApp/$(date +'WebApp-%F').zip
     application: speakr-webapp-codedeploy
-    deployment_group: speakr-webapp-codedeploy-deploymentgroup
+    deployment_group: speakr-webapp-codedeploy-Fleet
     on:
         branch: production
