@@ -91,7 +91,7 @@ function _SetupCodeDeployApplication([string]$applicationName,[string]$serviceRo
     $ec2Tag = New-Object -TypeName Amazon.CodeDeploy.Model.EC2TagFilter
     $ec2Tag.Key = "Name"
     $ec2Tag.Type = "KEY_AND_VALUE"
-    $ec2Tag.Value = $appName
+    $ec2Tag.Value = ("speakr-" + $appName)
 
     $deploymentGroupId = New-CDDeploymentGroup -ApplicationName $applicationName -DeploymentGroupName $deploymentGroupName -Ec2TagFilter $ec2Tag -ServiceRoleArn $serviceRole -Region $region
 
