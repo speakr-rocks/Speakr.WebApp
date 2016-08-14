@@ -41,12 +41,15 @@
     }
   },
 
-  "publishOptions": {
-    "include": [
-      "wwwroot",
-      "web.config"
-    ]
-  },
+    "publishOptions": {
+        "include": [
+            "wwwroot",
+            "web.config",
+            "appsettings.json",
+            "Views",
+            "Logs"
+        ]
+    },
 
     "scripts": {
         "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
