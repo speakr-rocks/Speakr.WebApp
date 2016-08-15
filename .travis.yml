@@ -1,19 +1,7 @@
-language: csharp
+language: generic
 
 sudo: required
 dist: trusty
-
-addons:
-  apt:
-    packages:
-    - gettext
-    - libcurl4-openssl-dev
-    - libicu-dev
-    - libssl-dev
-    - libunwind8
-
-mono:
-  - latest
 
 install:
 # Install .net using linux CLI commands
@@ -42,7 +30,7 @@ deploy:
     local_dir: CodeDeploy_Artifacts
     skip_cleanup: true
     upload-dir: WebApp
-    on:
+    on: &2
         branch: production
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
@@ -51,5 +39,4 @@ deploy:
     key: WebApp/$(date +'WebApp-%F').zip
     application: speakr-webapp-codedeploy
     deployment_group: speakr-webapp-codedeploy-Fleet
-    on:
-        branch: production
+    on: *2
