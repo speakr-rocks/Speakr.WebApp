@@ -10,6 +10,4 @@ namespace Speakr.WebApp.Site.Clients.TalksApi.DTO
         public string SpeakerName { get; set; }
         public IList<Question> Questionnaire { get; set; }
     }
-
-    
 }
