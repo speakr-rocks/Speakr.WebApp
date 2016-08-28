@@ -9,11 +9,11 @@
         ]
     },
     {
-        "outputFileName": "~/lib/font-awesome/css/font-awesome.min.css",
+        "outputFileName": "wwwroot/css/font-awesome.min.css",
 
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
-            "~/lib/font-awesome/css/font-awesome.css"
+            "wwwroot/lib/Font-Awesome/css/font-awesome.css"
         ]
     }
 ]

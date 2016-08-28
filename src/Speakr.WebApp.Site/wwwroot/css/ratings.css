@@ -1,0 +1,40 @@
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: 30px;
+}
+
+.rating > input[type=radio] {
+    display: none;
+}
+
+.rating input[type=radio].starrating {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+}
+
+.rating input[type=radio].starrating:hover {
+    font-family: FontAwesome;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.rating input[type=radio].starrating:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f006";
+    padding-right: 5px;
+    color: #777;
+}
+
+.rating input[type=radio].starrating:hover:before,
+.rating input[type=radio].starrating:checked:before,
+.rating input[type=radio].starrating:hover ~ input[type=radio].starrating:before,
+.rating input[type=radio].starrating:checked ~ input[type=radio].starrating:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+    color: #e3cf7a;
+}
