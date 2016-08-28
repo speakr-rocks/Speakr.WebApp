@@ -26,11 +26,40 @@
                         break;
 
                     case ResponseTypes.Emoji:
-                        <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
+                        @foreach (var option in Model.Questionnaire[i].EmojiOptions)
+                        {
+                            <label class="@option.Value @(option.Selected ? "active": "")">
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" value="@option.Value"
+                                       @(option.Selected ? "checked='check'" : "") />
+                                @option.Label
+                            </label>
+                        }
                         break;
 
                     case ResponseTypes.Rating:
-                        <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
+                        <div class="rating">
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="5">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="4">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="3">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="2">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="1">
+                            </label>
+                        </div>
+
                         break;
 
                     case ResponseTypes.YesNo:
@@ -58,7 +87,7 @@
         </div>
 
         <span asp-validation-for="@Model.Questionnaire[i].Answer"></span>
-            <br />
+        <br />
     }
 
     <div class="form-group">
@@ -67,3 +96,4 @@
         </div>
     </div>
 </form>
+

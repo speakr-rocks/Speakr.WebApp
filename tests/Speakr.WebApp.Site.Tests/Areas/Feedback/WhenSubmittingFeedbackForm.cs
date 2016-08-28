@@ -8,6 +8,7 @@ using Speakr.WebApp.Site.Tests.Helpers;
 using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
@@ -52,16 +53,22 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         private static FeedbackViewModel CreateFeedbackViewModelMock()
         {
             var temp = TalksApiMockResponse.GetTalkById("12345");
-            var model = new FeedbackViewModel()
-            {
-                TalkId = temp.TalkId,
-                TalkName = temp.TalkName,
-                SpeakerId = temp.SpeakerId,
-                SpeakerName = temp.SpeakerName,
-                Questionnaire = temp.Questionnaire
-            };
+            var viewModel = new FeedbackViewModel();
+            viewModel.TalkId = temp.TalkId;
+            viewModel.TalkName = temp.TalkName;
+            viewModel.SpeakerId = temp.SpeakerId;
+            viewModel.SpeakerName = temp.SpeakerName;
 
-            return model;
+            viewModel.Questionnaire = temp.Questionnaire.Select(x => new QuestionViewModel
+            {
+                QuestionId = x.QuestionId,
+                IsRequired = x.IsRequired,
+                QuestionText = x.QuestionText,
+                ResponseType = x.ResponseType,
+                Answer = x.Answer
+            }).ToList();
+
+            return viewModel;
         }
 
         [Test]

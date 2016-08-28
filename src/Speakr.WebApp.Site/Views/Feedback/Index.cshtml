@@ -17,3 +17,13 @@
 @section Footer {
     @await Component.InvokeAsync("Footer")
 }
+
+@section Scripts {
+    <script>
+        $('.rating input').change(function () {
+            var $radio = $(this);
+            $('.rating .selected').removeClass('selected');
+            $radio.closest('label').addClass('selected');
+        });
+    </script>
+}

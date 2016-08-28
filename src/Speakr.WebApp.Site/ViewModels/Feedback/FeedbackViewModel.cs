@@ -10,6 +10,6 @@ namespace Speakr.WebApp.Site.ViewModels.Feedback
         public string SpeakerId { get; set; }
         public string SpeakerName { get; set; }
 
-        public IList<Question> Questionnaire { get; set; }
+        public IList<QuestionViewModel> Questionnaire { get; set; }
     }
 }
