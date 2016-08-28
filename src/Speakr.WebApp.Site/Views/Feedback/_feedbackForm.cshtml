@@ -37,18 +37,29 @@
                         break;
 
                     case ResponseTypes.Rating:
-                        <div class="rating" data-toggle="buttons">
-                            <input type="radio" class="starrating" asp-for="@Model.Questionnaire[i].Answer"
-                                   required="@Model.Questionnaire[i].IsRequired" value="1"/>
-                            <input type="radio" class="starrating" asp-for="@Model.Questionnaire[i].Answer"
-                                   required="@Model.Questionnaire[i].IsRequired" value="2"/>
-                            <input type="radio" class="starrating" asp-for="@Model.Questionnaire[i].Answer"
-                                   required="@Model.Questionnaire[i].IsRequired" value="3"/>
-                            <input type="radio" class="starrating" asp-for="@Model.Questionnaire[i].Answer"
-                                   required="@Model.Questionnaire[i].IsRequired" value="4"/>
-                            <input type="radio" class="starrating" asp-for="@Model.Questionnaire[i].Answer"
-                                   required="@Model.Questionnaire[i].IsRequired" value="5"/>
+                        <div class="rating">
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="5">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="4">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="3">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="2">
+                            </label>
+                            <label>
+                                <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
+                                   required="@Model.Questionnaire[i].IsRequired" value="1">
+                            </label>
                         </div>
+
                         break;
 
                     case ResponseTypes.YesNo:
@@ -85,3 +96,4 @@
         </div>
     </div>
 </form>
+

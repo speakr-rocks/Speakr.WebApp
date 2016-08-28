@@ -1,40 +1,40 @@
 .rating {
     unicode-bidi: bidi-override;
     direction: rtl;
-    font-size: 30px;
+    width: 10em;
 }
 
-.rating > input[type=radio] {
-    display: none;
+.rating input {
+    position: absolute;
+    left: -999999px;
 }
 
-.rating input[type=radio].starrating {
-    font-family: FontAwesome;
-    font-weight: normal;
-    font-style: normal;
+.rating label {
     display: inline-block;
+    font-size: 0;
 }
 
-.rating input[type=radio].starrating:hover {
-    font-family: FontAwesome;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.rating input[type=radio].starrating:before {
-    font-family: FontAwesome;
-    display: inline-block;
-    content: "\f006";
-    padding-right: 5px;
-    color: #777;
-}
-
-.rating input[type=radio].starrating:hover:before,
-.rating input[type=radio].starrating:checked:before,
-.rating input[type=radio].starrating:hover ~ input[type=radio].starrating:before,
-.rating input[type=radio].starrating:checked ~ input[type=radio].starrating:before {
-    font-family: FontAwesome;
-    display: inline-block;
+.rating > label:before {
+    position: relative;
+    font: 24px/1 FontAwesome;
+    display: block;
     content: "\f005";
-    color: #e3cf7a;
+    color: #ccc;
+    background: -webkit-linear-gradient(-45deg, #d9d9d9 0%, #b3b3b3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > label.selected:before,
+.rating > label.selected ~ label:before {
+    color: #f0ad4e;
+    background: -webkit-linear-gradient(-45deg, #fcb551 0%, #d69a45 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+
