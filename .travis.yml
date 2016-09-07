@@ -15,6 +15,7 @@ script:
   - dotnet build src/Speakr.WebApp.Site
   - dotnet build tests/Speakr.WebApp.Site.Tests
   - dotnet test tests/Speakr.WebApp.Site.Tests -f netcoreapp1.0
+  - dotnet test tests/Speakr.WebApp.Site.InMemoryTests -f netcoreapp1.0
 
 before_deploy:
   - zip -r $(date +'WebApp-%F').zip *
