@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
-    public static class TalksApiMockResponse
+    public static class TalksApiStubResponse
     {
         public static TalksDTO GetTalkById(string talkId)
         {

@@ -52,7 +52,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 
         private static FeedbackViewModel CreateFeedbackViewModelMock()
         {
-            var temp = TalksApiMockResponse.GetTalkById("12345");
+            var temp = TalksApiStubResponse.GetTalkById("12345");
             var viewModel = new FeedbackViewModel();
             viewModel.TalkId = temp.TalkId;
             viewModel.TalkName = temp.TalkName;
