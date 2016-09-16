@@ -1,6 +1,6 @@
 ﻿namespace Speakr.WebApp.Site.Clients.TalksApi.DTO
 {
-    public enum ResponseTypes
+    public enum AnswerTypes
     {
         Text,
         Emoji,

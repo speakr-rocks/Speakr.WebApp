@@ -5,12 +5,12 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public class TalksApi : ITalksApi
     {
-        public async Task<TalksDTO> GetTalkById(string talkId)
+        public async Task<FeedbackForm> GetTalkById(string talkId)
         {
             return await Task.FromResult(TalksApiStubResponse.GetTalkById(talkId));
         }
 
-        public async Task PostReviewResponse(string talkId, FeedbackDTO response)
+        public async Task PostReviewResponse(string talkId, FeedbackResponse response)
         {
             // POST ~api/talks/{talkId}/responses
         }

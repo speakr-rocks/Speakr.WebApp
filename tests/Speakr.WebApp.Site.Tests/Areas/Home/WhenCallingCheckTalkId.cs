@@ -11,6 +11,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
     public class WhenCallingCheckTalkId
     {
         [TestCase("12345")]
+        [TestCase("aaaaa")]
         public void CheckTalkId_ShouldRedirectForValidTalkIds(string talkId)
         {
             var model = new GetFeedbackFormViewModel() { TalkId = talkId };
@@ -21,11 +22,13 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ActionName, Is.EqualTo("Index"));
             Assert.That(actionResult.ControllerName, Is.EqualTo("feedback"));
-            Assert.That(actionResult.RouteValues["TalkId"], Is.EqualTo("12345"));
+            Assert.That(actionResult.RouteValues["TalkId"], Is.EqualTo(talkId));
         }
 
         [TestCase("", "Please enter your talk's ID")]
         [TestCase("123", "Talk ID's have at least 4 characters")]
+        [TestCase("aaa", "Talk ID's have at least 4 characters")]
+        [TestCase("!!!!!", "Please use alphanumeric characters only")]
         public void CheckTalkId_ShouldHandleInvalidValues(string talkId, string expectedMessage)
         {
             var model = new GetFeedbackFormViewModel() { TalkId = talkId };

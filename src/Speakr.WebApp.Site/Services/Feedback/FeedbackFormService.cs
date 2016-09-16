@@ -32,7 +32,7 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
             await _talksApiClient.PostReviewResponse(submittedForm.TalkId, response);
         }
 
-        private static FeedbackViewModel MapToViewModel(TalksDTO talk)
+        private static FeedbackViewModel MapToViewModel(FeedbackForm talk)
         {
             var viewModel = new FeedbackViewModel();
             viewModel.TalkId = talk.TalkId;
@@ -52,9 +52,9 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
             return viewModel;
         }
 
-        private static FeedbackDTO MapFeedbackViewModelToRevieForm(FeedbackViewModel submittedForm)
+        private static FeedbackResponse MapFeedbackViewModelToRevieForm(FeedbackViewModel submittedForm)
         {
-            return new FeedbackDTO
+            return new FeedbackResponse
             {
                 TalkId = submittedForm.TalkId,
                 ReviewerId = "",
