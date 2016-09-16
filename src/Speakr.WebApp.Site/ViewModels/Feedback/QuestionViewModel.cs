@@ -11,7 +11,7 @@ namespace Speakr.WebApp.Site.ViewModels.Feedback
         public string QuestionId { get; set; }
         public bool IsRequired { get; set; }
         public string QuestionText { get; set; }
-        public ResponseTypes ResponseType { get; set; }
+        public AnswerTypes ResponseType { get; set; }
         public string Answer { get; set; }
 
         public class Option

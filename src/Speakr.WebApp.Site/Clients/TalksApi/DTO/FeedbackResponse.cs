@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi.DTO
 {
-    public class FeedbackDTO
+    public class FeedbackResponse
     {
         public string TalkId { get; set; }
         public string ReviewerId { get; set; }

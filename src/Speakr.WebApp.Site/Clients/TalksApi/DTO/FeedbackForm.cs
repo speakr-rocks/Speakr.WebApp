@@ -2,7 +2,7 @@
 
 namespace Speakr.WebApp.Site.Clients.TalksApi.DTO
 {
-    public class TalksDTO
+    public class FeedbackForm
     {
         public string TalkId { get; set; }
         public string TalkName { get; set; }

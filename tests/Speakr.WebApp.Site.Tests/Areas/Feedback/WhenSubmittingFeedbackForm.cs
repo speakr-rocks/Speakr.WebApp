@@ -14,35 +14,10 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
     public class WhenSubmittingFeedbackForm
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        [Test]
-        [Ignore("Not using MVC postback for validation yet")]
-        public void AndFeedbackIsPosted_ThenViewModelIsValidatedCorrectly()
-        {
-            var model = new FeedbackViewModel();
-            var expectedMessage = "Please provide an answer to this question";
-
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
-
-            var validationErrors = CheckForValidationErrors(controller, model);
-
-            var actionResult = (ViewResult)controller.Index(model).Result;
-            var modelState = controller.ModelState;
-
-            Assert.That(validationErrors.Count, Is.EqualTo(1));
-            Assert.That(validationErrors[0].ErrorMessage, Is.EqualTo(expectedMessage));
-
-            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-        }
-
         [Test]
         public void AndFeedbackIsPosted_ThenShouldRedirectSuccessfully()
         {
-            var model = CreateFeedbackViewModelMock();
+            var model = CreateFeedbackViewModelStub();
             var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
 
             var actionResult = (ViewResult)controller.Index(model).Result;
@@ -50,7 +25,47 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             Assert.That(actionResult.ViewName, Is.EqualTo("_feedbackSavedSuccessfully"));
         }
 
-        private static FeedbackViewModel CreateFeedbackViewModelMock()
+        //[Test]
+        //[Ignore("MVC Validation via postback not implemented yet")]
+        //public void AndFeedbackIsPosted_ThenViewModelIsValidatedCorrectly()
+        //{
+        //    var model = CreateFeedbackViewModelStub();
+        //    var expectedMessage = "Please provide an answer to this question";
+
+        //    var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+
+        //    var validationErrors = CheckForValidationErrors(controller, model);
+
+        //    var actionResult = (ViewResult)controller.Index(model).Result;
+        //    var modelState = controller.ModelState;
+
+        //    Assert.That(validationErrors.Count, Is.EqualTo(1));
+        //    Assert.That(validationErrors[0].ErrorMessage, Is.EqualTo(expectedMessage));
+
+        //    Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
+        //}
+
+        //[Test]
+        //[Ignore("Need mocking framework")]
+        //public void AndFeedbackIsPosted_ThenResponseMappedCorrectly()
+        //{
+        //    var model = new FeedbackViewModel();
+        //    var expectedDTO = new FeedbackResponse();
+
+        //    // Mock talksapi. Should have been called with expected DTO
+        //    var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+
+        //    var validationErrors = CheckForValidationErrors(controller, model);
+
+        //    var actionResult = (ViewResult)controller.Index(model).Result;
+        //    var modelState = controller.ModelState;
+
+        //    //Assert.That(TalksApi, WasCalledWithParam(expectedDTO));
+
+        //    Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
+        //}
+
+        private static FeedbackViewModel CreateFeedbackViewModelStub()
         {
             var temp = TalksApiStubResponse.GetTalkById("12345");
             var viewModel = new FeedbackViewModel();
@@ -69,26 +84,6 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             }).ToList();
 
             return viewModel;
-        }
-
-        [Test]
-        [Ignore("Need mocking framework")]
-        public void AndFeedbackIsPosted_ThenResponseMappedCorrectly()
-        {
-            var model = new FeedbackViewModel();
-            var expectedDTO = new FeedbackDTO();
-
-            // Mock talksapi. Should have been called with expected DTO
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
-
-            var validationErrors = CheckForValidationErrors(controller, model);
-
-            var actionResult = (ViewResult)controller.Index(model).Result;
-            var modelState = controller.ModelState;
-
-            //Assert.That(TalksApi, WasCalledWithParam(expectedDTO));
-
-            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
         }
 
         private static IList<ValidationResult> CheckForValidationErrors(FeedbackController controller, FeedbackViewModel model)
