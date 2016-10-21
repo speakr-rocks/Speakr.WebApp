@@ -21,11 +21,11 @@
             <div>
                 @switch (Model.Questionnaire[i].ResponseType)
                 {
-                    case ResponseTypes.Text:
+                    case AnswerTypes.Text:
                         <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
                         break;
 
-                    case ResponseTypes.Emoji:
+                    case AnswerTypes.Emoji:
                         @foreach (var option in Model.Questionnaire[i].EmojiOptions)
                         {
                             <label class="@option.Value @(option.Selected ? "active": "")">
@@ -36,7 +36,7 @@
                         }
                         break;
 
-                    case ResponseTypes.Rating:
+                    case AnswerTypes.Rating:
                         <div class="rating">
                             <label>
                                 <input type="radio" asp-for="@Model.Questionnaire[i].Answer"
@@ -62,7 +62,7 @@
 
                         break;
 
-                    case ResponseTypes.YesNo:
+                    case AnswerTypes.YesNo:
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-success">
                                 <input type="radio"
