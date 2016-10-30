@@ -19,7 +19,7 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
 
         public async Task<FeedbackViewModel> GetReviewFormForTalkId(string talkId)
         {
-            var talk = await _talksApiClient.GetTalkById(talkId);
+            var talk = await _talksApiClient.GetFeedbackFormByEasyAccessKey(talkId);
             var viewModel = MapToViewModel(talk);
 
             return viewModel;
@@ -29,7 +29,7 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
         {
             var response = MapFeedbackViewModelToRevieForm(submittedForm);
 
-            await _talksApiClient.PostReviewResponse(submittedForm.TalkId, response);
+            await _talksApiClient.PostFeedbackForm(submittedForm.TalkId, response);
         }
 
         private static FeedbackViewModel MapToViewModel(FeedbackForm talk)

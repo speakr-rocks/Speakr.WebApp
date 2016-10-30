@@ -7,7 +7,7 @@ using Speakr.WebApp.Site.ViewModels.Feedback;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
-    public class WhenCallingIndex
+    public class WhenCallingFeedbackFormControllerIndex
     {
         [SetUp]
         public void Setup()

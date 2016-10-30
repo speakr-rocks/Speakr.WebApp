@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.WebApp.Site.Clients.TalksApi;
-using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using Speakr.WebApp.Site.Controllers;
 using Speakr.WebApp.Site.Services.ReviewForm;
 using Speakr.WebApp.Site.Tests.Helpers;

@@ -5,14 +5,27 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public class TalksApi : ITalksApi
     {
-        public async Task<FeedbackForm> GetTalkById(string talkId)
+        private readonly string _baseUrl = "talksapi.speakr.rocks";
+
+        public async Task PostTalk(Talk requestBody)
         {
-            return await Task.FromResult(TalksApiStubResponse.GetTalkById(talkId));
+            // POST ~/talks
         }
 
-        public async Task PostReviewResponse(string talkId, FeedbackResponse response)
+        public async Task GetTalkById(int talkId)
         {
-            // POST ~api/talks/{talkId}/responses
+            // POST ~/talks?talkId={talkId}
+        }
+
+        public async Task<FeedbackForm> GetFeedbackFormByEasyAccessKey(string easyAccessKey)
+        {
+            // GET ~/talks/{easyAccessKey}/FeedbackForm
+            return await Task.FromResult(TalksApiStubResponse.GetTalkById(easyAccessKey));
+        }
+
+        public async Task PostFeedbackForm(string easyAccessKey, FeedbackResponse response)
+        {
+            // POST ~/talks/{easyAccessKey}/FeedbackForm
         }
     }
 }

@@ -12,9 +12,11 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
     {
         [TestCase("12345")]
         [TestCase("aaaaa")]
-        public void CheckTalkId_ShouldRedirectForValidTalkIds(string talkId)
+        [TestCase("aaa_aaa")]
+        [TestCase("aaa.aaa")]
+        public void ThenItRedirectsForValidTalkIds(string talkId)
         {
-            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
+            var model = new GetFeedbackFormViewModel() { EasyAccessKey = talkId };
 
             var controller = new HomeController();
             var actionResult = (RedirectToActionResult)controller.CheckTalkIdCode(model);
@@ -28,10 +30,10 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
         [TestCase("", "Please enter your talk's ID")]
         [TestCase("123", "Talk ID's have at least 4 characters")]
         [TestCase("aaa", "Talk ID's have at least 4 characters")]
-        [TestCase("!!!!!", "Please use alphanumeric characters only")]
-        public void CheckTalkId_ShouldHandleInvalidValues(string talkId, string expectedMessage)
+        [TestCase("!!!!!", "There are invalid characters on your TalkId")]
+        public void OtherwiseItHandlesInvalidValues(string talkId, string expectedMessage)
         {
-            var model = new GetFeedbackFormViewModel() { TalkId = talkId };
+            var model = new GetFeedbackFormViewModel() { EasyAccessKey = talkId };
             var controller = new HomeController();
 
             var validationErrors = CheckForValidationErrors(controller, model);
@@ -51,7 +53,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
 
             if (validationErrors.Count > 0)
             {
-                controller.ViewData.ModelState.AddModelError(nameof(model.TalkId), validationErrors[0].ErrorMessage);
+                controller.ViewData.ModelState.AddModelError(nameof(model.EasyAccessKey), validationErrors[0].ErrorMessage);
             }
 
             return validationErrors;

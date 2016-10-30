@@ -1,5 +1,4 @@
-﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Speakr.WebApp.Site.ViewModels.Feedback
 {
