@@ -3,13 +3,21 @@ using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Clients
 {
-    public class RestClient
+    public abstract class RestClient
     {
+
+        private string _baseUrl;
+
+        public RestClient(string baseUrl)
+        {
+            _baseUrl = baseUrl;
+        }
+
         public async Task<string> Get(string baseUrl)
         {
             using (var client = new HttpClient())
             {
-                return await client.GetStringAsync("http://localhost:5000/api/greeting");
+                return await client.GetStringAsync(_baseUrl);
             }
         }
 

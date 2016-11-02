@@ -1,11 +1,15 @@
 ﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using System.Threading.Tasks;
+using System;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
-    public class TalksApi : ITalksApi
+    public class TalksApi : RestClient, ITalksApi
     {
-        private readonly string _baseUrl = "talksapi.speakr.rocks";
+        public TalksApi() : base()
+        {
+
+        }
 
         public async Task PostTalk(Talk requestBody)
         {
