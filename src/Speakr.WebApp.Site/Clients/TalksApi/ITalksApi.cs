@@ -6,6 +6,6 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
     public interface ITalksApi
     {
         Task<FeedbackForm> GetFeedbackFormByEasyAccessKey(string talkId);
-        Task PostFeedbackForm(string talkdId, FeedbackResponse response);
+        Task PostFeedbackForm(int talkdId, FeedbackResponse response);
     }
 }
