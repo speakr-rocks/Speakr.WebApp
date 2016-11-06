@@ -25,11 +25,11 @@ namespace Speakr.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckTalkIdCode(GetFeedbackFormViewModel model)
+        public IActionResult CheckEasyAccessKey(GetFeedbackFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "feedback", new { TalkId = model.EasyAccessKey });
+                return RedirectToAction("Index", "feedback", new { EasyAccessKey = model.EasyAccessKey });
             }
 
             return View("Index", model);

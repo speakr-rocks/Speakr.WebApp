@@ -1,19 +1,19 @@
 ﻿@model GetFeedbackFormViewModel
 
-<form asp-controller="Home" asp-action="CheckTalkIdCode" method="post" class="form-horizontal">
+<form asp-controller="Home" asp-action="CheckEasyAccessKey" method="post" class="form-horizontal">
 
     @if (Model != null && Model.HasErrors)
     {
-        <p class="alert alert-danger">@Model.TalkIdErrorMessage</p>
+        <p class="alert alert-danger">@Model.EasyAccessKeyErrorMessage</p>
     }
 
-    <span asp-validation-for="TalkId" class="text-danger"></span>
+    <span asp-validation-for="EasyAccessKey" class="text-danger"></span>
 
     <div class="form-group">
-        <label asp-for="TalkId" class="control-label col-sm-2"></label>
+        <label asp-for="EasyAccessKey" class="control-label col-sm-2"></label>
 
         <div class="col-sm-10">
-            <input asp-for="TalkId" type="text" class="form-control" placeholder="Please enter your Talk Id">
+            <input asp-for="EasyAccessKey" type="text" class="form-control" placeholder="Please enter your Talk Id">
         </div>
     </div>
 

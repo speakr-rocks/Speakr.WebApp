@@ -11,7 +11,7 @@
     {
         @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
         @Html.HiddenFor(q => Model.Questionnaire[i].QuestionText)
-        @Html.HiddenFor(q => Model.Questionnaire[i].ResponseType)
+        @Html.HiddenFor(q => Model.Questionnaire[i].AnswerType)
         @Html.HiddenFor(q => Model.Questionnaire[i].IsRequired)
 
         <div class="form-group">
@@ -19,7 +19,7 @@
             <label class="control-label">@Model.Questionnaire[i].QuestionText</label>
 
             <div>
-                @switch (Model.Questionnaire[i].ResponseType)
+                @switch (Model.Questionnaire[i].AnswerType)
                 {
                     case AnswerTypes.Text:
                         <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>

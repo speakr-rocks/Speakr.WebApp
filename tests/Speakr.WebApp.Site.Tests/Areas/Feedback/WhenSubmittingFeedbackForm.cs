@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FakeItEasy;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.WebApp.Site.Clients.TalksApi;
 using Speakr.WebApp.Site.Controllers;
@@ -13,11 +14,19 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
     public class WhenSubmittingFeedbackForm
     {
+        private ITalksApi _talksApi;
+
+        [SetUp]
+        public void Setup()
+        {
+            _talksApi = A.Fake<ITalksApi>();
+        }
+
         [Test]
         public void AndFeedbackIsPosted_ThenShouldRedirectSuccessfully()
         {
             var model = CreateFeedbackViewModelStub();
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
 
             var actionResult = (ViewResult)controller.Index(model).Result;
 
@@ -31,7 +40,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         //    var model = CreateFeedbackViewModelStub();
         //    var expectedMessage = "Please provide an answer to this question";
 
-        //    var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+        //    var controller = new FeedbackController(new FeedbackFormService(_talksApi));
 
         //    var validationErrors = CheckForValidationErrors(controller, model);
 
@@ -52,7 +61,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         //    var expectedDTO = new FeedbackResponse();
 
         //    // Mock talksapi. Should have been called with expected DTO
-        //    var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+        //    var controller = new FeedbackController(new FeedbackFormService(_talksApi));
 
         //    var validationErrors = CheckForValidationErrors(controller, model);
 
@@ -66,11 +75,10 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 
         private static FeedbackViewModel CreateFeedbackViewModelStub()
         {
-            var temp = TalksApiStubResponse.GetTalkById("12345");
+            var temp = TalksApiStubResponse.GetTalkById(12345);
             var viewModel = new FeedbackViewModel();
             viewModel.TalkId = temp.TalkId;
             viewModel.TalkName = temp.TalkName;
-            viewModel.SpeakerId = temp.SpeakerId;
             viewModel.SpeakerName = temp.SpeakerName;
 
             viewModel.Questionnaire = temp.Questionnaire.Select(x => new QuestionViewModel
@@ -78,7 +86,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
                 QuestionId = x.QuestionId,
                 IsRequired = x.IsRequired,
                 QuestionText = x.QuestionText,
-                ResponseType = x.ResponseType,
+                AnswerType = x.AnswerType,
                 Answer = x.Answer
             }).ToList();
 

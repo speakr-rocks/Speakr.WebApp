@@ -26,8 +26,8 @@ namespace Speakr.WebApp.Site.Controllers
             }
 
             // If api returns 200, it'll have a questionnaire form:
-            var viewModel = await _feedbackFormService.GetReviewFormForTalkId(talkId); 
-            
+            var viewModel = await _feedbackFormService.GetReviewFormForTalkId(talkId);
+
             return View("Index", viewModel);
         }
 

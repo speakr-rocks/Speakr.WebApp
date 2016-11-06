@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FakeItEasy;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.WebApp.Site.Clients.TalksApi;
 using Speakr.WebApp.Site.Controllers;
@@ -9,15 +10,18 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
     public class WhenCallingFeedbackFormControllerIndex
     {
+        private ITalksApi _talksApi;
+
         [SetUp]
         public void Setup()
         {
+            _talksApi = A.Fake<ITalksApi>();
         }
 
         [Test]
         public void AndTalkIsFound_ThenIndexShouldNotReturnNull()
         {
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
             var actionResult = (ViewResult)controller.Index("12345").Result;
             var model = (FeedbackViewModel)actionResult.Model;
 
@@ -29,7 +33,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         [Test]
         public void AndTalkIsFound_ThenViewModelShouldBeMappedCorrectly()
         {
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
             var actionResult = (ViewResult)controller.Index("12345").Result;
             var model = (FeedbackViewModel)actionResult.Model;
 
@@ -43,7 +47,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         [Test]
         public void AndTalkIsNotFound_ThenShouldRedirectWithError()
         {
-            var controller = new FeedbackController(new FeedbackFormService(new TalksApi()));
+            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
             var actionResult = (RedirectToActionResult)controller.Index("abcde").Result;
 
             Assert.That(actionResult, Is.Not.Null);

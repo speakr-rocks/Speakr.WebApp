@@ -32,12 +32,11 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
             await _talksApiClient.PostFeedbackForm(submittedForm.TalkId, response);
         }
 
-        private static FeedbackViewModel MapToViewModel(FeedbackForm talk)
+        private FeedbackViewModel MapToViewModel(FeedbackForm talk)
         {
             var viewModel = new FeedbackViewModel();
             viewModel.TalkId = talk.TalkId;
             viewModel.TalkName = talk.TalkName;
-            viewModel.SpeakerId = talk.SpeakerId;
             viewModel.SpeakerName = talk.SpeakerName;
 
             viewModel.Questionnaire = talk.Questionnaire.Select(x => new QuestionViewModel
@@ -45,14 +44,14 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
                 QuestionId = x.QuestionId,
                 IsRequired = x.IsRequired,
                 QuestionText = x.QuestionText,
-                ResponseType = x.ResponseType,
+                AnswerType = x.AnswerType,
                 Answer = x.Answer
             }).ToList();
 
             return viewModel;
         }
 
-        private static FeedbackResponse MapFeedbackViewModelToRevieForm(FeedbackViewModel submittedForm)
+        private FeedbackResponse MapFeedbackViewModelToRevieForm(FeedbackViewModel submittedForm)
         {
             return new FeedbackResponse
             {
@@ -63,7 +62,7 @@ namespace Speakr.WebApp.Site.Services.ReviewForm
                     QuestionId = x.QuestionId,
                     IsRequired = x.IsRequired,
                     QuestionText = x.QuestionText,
-                    ResponseType = x.ResponseType,
+                    AnswerType = x.AnswerType,
                     Answer = x.Answer
                 }).ToList(),
                 SubmissionTime = DateTime.Now

@@ -7,11 +7,6 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
 {
     public class WhenCallingHomeController
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Index_Returns200AndTheCorrectView()
         {
