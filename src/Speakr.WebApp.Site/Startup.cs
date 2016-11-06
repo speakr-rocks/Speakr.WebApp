@@ -26,7 +26,7 @@ namespace Speakr.WebApp
         {
             services.AddMvc();
 
-            services.AddScoped<ITalksApi, TalksApi>();
+            services.AddSingleton<ITalksApi>(ApiClient => new TalksApi("http://talksapi.speakr.rocks"));
 
             services.AddScoped<IFeedbackFormService, FeedbackFormService>();
         }
