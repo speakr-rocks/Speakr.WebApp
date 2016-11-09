@@ -2,50 +2,64 @@
 using Speakr.WebApp.Site.Services.Feedback;
 using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Threading.Tasks;
+using System;
+using Speakr.WebApp.Site.Clients.TalksApi.DTO;
+using Speakr.WebApp.Site.Clients.TalksApi;
+using System.Linq;
 
 namespace Speakr.WebApp.Site.Controllers
 {
     [Route("feedback")]
     public class FeedbackController : Controller
     {
-        private IFeedbackFormService _feedbackFormService;
+        private ITalksApi _talksApi;
 
-        public FeedbackController(IFeedbackFormService feedbackFormService)
+        public FeedbackController(ITalksApi talksApi)
         {
-            _feedbackFormService = feedbackFormService;
+            _talksApi = talksApi;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> Index(string talkId)
+        public IActionResult Index(string easyAccessKey)
         {
-            // If api returns 404 for talk id:
-            if (talkId.Equals("abcde"))
-            {
-                return RedirectToAction("TalkNotFound", "Home", new { TalkId = talkId });
-            }
+            var feedbackForm = GetFeedbackForm(easyAccessKey);
 
-            // If api returns 200, it'll have a questionnaire form:
-            var viewModel = await _feedbackFormService.GetReviewFormForTalkId(talkId);
+            if (feedbackForm == null)
+                return RedirectToAction("TalkNotFound", "Home", new { EasyAccessKey = easyAccessKey });
 
-            return View("Index", viewModel);
+            return View("Index", feedbackForm);
         }
 
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> Index(FeedbackViewModel submittedReview)
+        private FeedbackFormViewModel GetFeedbackForm(string easyAccessKey)
         {
-            if (ModelState.IsValid)
+            var form = _talksApi.GetFeedbackFormByEasyAccessKey(easyAccessKey);
+
+            if (form == null)
+                return null;
+
+            return MapToViewModel(form);
+        }
+
+        private FeedbackFormViewModel MapToViewModel(FeedbackForm form)
+        {
+            if (form.Questionnaire == null || !form.Questionnaire.Any()) return null;
+
+            var viewModel = new FeedbackFormViewModel();
+            viewModel.TalkId = form.TalkId;
+            viewModel.TalkName = form.TalkName;
+            viewModel.SpeakerName = form.SpeakerName;
+
+            viewModel.Questionnaire = form.Questionnaire.Select(x => new QuestionViewModel
             {
-                await _feedbackFormService.PostReviewForm(submittedReview);
+                QuestionId = x.QuestionId,
+                IsRequired = x.IsRequired,
+                QuestionText = x.QuestionText,
+                AnswerType = x.AnswerType,
+                Answer = x.Answer
+            }).ToList();
 
-                // If Api returns fail
-                // Redirect to view and tell user to try later
-
-                return View("_feedbackSavedSuccessfully");
-            }
-
-            return View("Index", submittedReview);
+            return viewModel;
         }
     }
 }

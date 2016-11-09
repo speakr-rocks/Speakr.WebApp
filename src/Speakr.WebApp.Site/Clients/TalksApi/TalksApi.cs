@@ -12,22 +12,22 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
             Debug.WriteLine("Created TalksApi Http Client");
         }
 
-        public async Task PostTalk(Talk requestBody)
+        public void PostTalk(Talk requestBody)
         {
             // POST ~/talks
         }
 
-        public async Task<Talk> GetTalkById(int talkId)
+        public Talk GetTalkById(int talkId)
         {
-            return await GetAsync<Talk>($"talks?talkid={talkId}");
+            return Get<Talk>($"talks?talkid={talkId}");
         }
 
-        public async Task<FeedbackForm> GetFeedbackFormByEasyAccessKey(string easyAccessKey)
+        public FeedbackForm GetFeedbackFormByEasyAccessKey(string easyAccessKey)
         {
-            return await GetAsync<FeedbackForm>($"talks/{easyAccessKey}/FeedbackForm");
+            return Get<FeedbackForm>($"talks/{easyAccessKey}/FeedbackForm");
         }
 
-        public async Task PostFeedbackForm(int easyAccessKey, FeedbackResponse response)
+        public void PostFeedbackForm(int easyAccessKey, FeedbackResponse response)
         {
 
             Debug.WriteLine($"Posting on client: {_httpClient.GetHashCode()}");

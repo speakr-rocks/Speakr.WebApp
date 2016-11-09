@@ -5,7 +5,7 @@ namespace Speakr.WebApp.Site.Services.Feedback
 {
     public interface IFeedbackFormService
     {
-        Task<FeedbackViewModel> GetReviewFormForTalkId(string talkId);
-        Task PostReviewForm(FeedbackViewModel model);
+        Task<FeedbackFormViewModel> GetReviewFormForTalkId(string talkId);
+        Task PostReviewForm(FeedbackFormViewModel model);
     }
 }

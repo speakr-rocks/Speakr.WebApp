@@ -24,7 +24,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ActionName, Is.EqualTo("Index"));
             Assert.That(actionResult.ControllerName, Is.EqualTo("feedback"));
-            Assert.That(actionResult.RouteValues["TalkId"], Is.EqualTo(easyAccessKey));
+            Assert.That(actionResult.RouteValues["easyAccessKey"], Is.EqualTo(easyAccessKey));
         }
 
         [TestCase("", "Please enter your talk's ID")]

@@ -2,12 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Speakr.WebApp.Site.Clients.TalksApi;
+using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using Speakr.WebApp.Site.Controllers;
-using Speakr.WebApp.Site.Services.ReviewForm;
 using Speakr.WebApp.Site.ViewModels.Feedback;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
+    [TestFixture]
     public class WhenCallingFeedbackFormControllerIndex
     {
         private ITalksApi _talksApi;
@@ -19,40 +22,56 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         }
 
         [Test]
-        public void AndTalkIsFound_ThenIndexShouldNotReturnNull()
+        public void AndTalkIsFound_ThenIndexShouldReturnView()
         {
-            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-            var actionResult = (ViewResult)controller.Index("12345").Result;
-            var model = (FeedbackViewModel)actionResult.Model;
+            A.CallTo(() => _talksApi.GetFeedbackFormByEasyAccessKey("12345"))
+                .Returns(new FeedbackForm() {
+                    Questionnaire = new List<Question>()
+                        {
+                            new Question()
+                        }
+                });
 
-            Assert.That(actionResult, Is.Not.Null);
-            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-            Assert.That(model, Is.TypeOf(typeof(FeedbackViewModel)));
+            var controller = new FeedbackController(_talksApi);
+            var actionResult = controller.Index("12345");
+            var viewResult = (ViewResult)actionResult;
+
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ViewName, Is.EqualTo("Index"));
+            Assert.That(viewResult.Model, Is.TypeOf<FeedbackFormViewModel>());
+        }
+
+
+        [Test]
+        public void AndTalkFoundButQuestionnaireIsEmpty_ThenIndexRedirectsToTalkNotFound()
+        {
+            A.CallTo(() => _talksApi.GetFeedbackFormByEasyAccessKey("12345"))
+                .Returns(new FeedbackForm());
+
+            var controller = new FeedbackController(_talksApi);
+            var actionResult = controller.Index("12345");
+            var viewResult = (RedirectToActionResult)actionResult;
+
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("TalkNotFound"));
+            Assert.That(viewResult.ControllerName, Is.EqualTo("Home"));
+            Assert.That(viewResult.RouteValues["EasyAccessKey"], Is.EqualTo("12345"));
         }
 
         [Test]
-        public void AndTalkIsFound_ThenViewModelShouldBeMappedCorrectly()
+        public void AndTalkIsNotFound_ThenIndexRedirectsToTalkNotFound()
         {
-            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-            var actionResult = (ViewResult)controller.Index("12345").Result;
-            var model = (FeedbackViewModel)actionResult.Model;
+            A.CallTo(() => _talksApi.GetFeedbackFormByEasyAccessKey("12345"))
+                .Returns(new FeedbackForm());
 
-            Assert.That(model.TalkId, Is.EqualTo("12345"));
-            Assert.That(model.TalkName, Is.EqualTo("My First Talk"));
-            Assert.That(model.SpeakerId, Is.EqualTo("guid_speaker_id"));
-            Assert.That(model.SpeakerName, Is.EqualTo("J-Wow"));
-            Assert.That(model.Questionnaire.Count, Is.EqualTo(6));
-        }
+            var controller = new FeedbackController(_talksApi);
+            var actionResult = controller.Index("12345");
+            var viewResult = (RedirectToActionResult)actionResult;
 
-        [Test]
-        public void AndTalkIsNotFound_ThenShouldRedirectWithError()
-        {
-            var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-            var actionResult = (RedirectToActionResult)controller.Index("abcde").Result;
-
-            Assert.That(actionResult, Is.Not.Null);
-            Assert.That(actionResult.ActionName, Is.EqualTo("TalkNotFound"));
-            Assert.That(actionResult.ControllerName, Is.EqualTo("Home"));
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("TalkNotFound"));
+            Assert.That(viewResult.ControllerName, Is.EqualTo("Home"));
+            Assert.That(viewResult.RouteValues["EasyAccessKey"], Is.EqualTo("12345"));
         }
     }
 }
