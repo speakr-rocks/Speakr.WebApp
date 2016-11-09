@@ -8,77 +8,71 @@ using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System;
+using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
     public class WhenSubmittingFeedbackForm
     {
-        //private ITalksApi _talksApi;
+        private ITalksApi _talksApi;
+        private DateTime _expectedDateTime;
+        private FeedbackFormViewModel _viewModel;
+        private FeedbackResponse _expectedResponse;
+        private string _easyAccessKey;
 
-        //[SetUp]
-        //public void Setup()
-        //{
-        //    _talksApi = A.Fake<ITalksApi>();
-        //}
-
-        //[Test]
-        //public void AndFeedbackIsPosted_ThenShouldRedirectSuccessfully()
-        //{
-        //    var model = CreateFeedbackViewModelStub();
-        //    var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-
-        //    var actionResult = (ViewResult)controller.Index(model).Result;
-
-        //    Assert.That(actionResult.ViewName, Is.EqualTo("_feedbackSavedSuccessfully"));
-        //}
-
-        //[Test]
-        //[Ignore("MVC Validation via postback not implemented yet")]
-        //public void AndFeedbackIsPosted_ThenViewModelIsValidatedCorrectly()
-        //{
-        //    var model = CreateFeedbackViewModelStub();
-        //    var expectedMessage = "Please provide an answer to this question";
-
-        //    var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-
-        //    var validationErrors = CheckForValidationErrors(controller, model);
-
-        //    var actionResult = (ViewResult)controller.Index(model).Result;
-        //    var modelState = controller.ModelState;
-
-        //    Assert.That(validationErrors.Count, Is.EqualTo(1));
-        //    Assert.That(validationErrors[0].ErrorMessage, Is.EqualTo(expectedMessage));
-
-        //    Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-        //}
-
-        //[Test]
-        //[Ignore("Need mocking framework")]
-        //public void AndFeedbackIsPosted_ThenResponseMappedCorrectly()
-        //{
-        //    var model = new FeedbackViewModel();
-        //    var expectedDTO = new FeedbackResponse();
-
-        //    // Mock talksapi. Should have been called with expected DTO
-        //    var controller = new FeedbackController(new FeedbackFormService(_talksApi));
-
-        //    var validationErrors = CheckForValidationErrors(controller, model);
-
-        //    var actionResult = (ViewResult)controller.Index(model).Result;
-        //    var modelState = controller.ModelState;
-
-        //    //Assert.That(TalksApi, WasCalledWithParam(expectedDTO));
-
-        //    Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-        //}
-
-        private static FeedbackFormViewModel CreateFeedbackViewModelStub()
+        [SetUp]
+        public void Setup()
         {
-            var temp = TalksApiStubResponse.GetTalkById(12345);
+            _talksApi = A.Fake<ITalksApi>();
+            _expectedDateTime = DateTime.Now;
+            _easyAccessKey = "talk_key";
+            _viewModel = CreateFeedbackViewModelStub(_easyAccessKey);
+            _expectedResponse = CreateFeedbackViewModelResponse(_viewModel);
+        }
+
+        [Test]
+        public void AndFeedbackIsSuccessfullyPosted_ThenShouldRedirectSuccessfully()
+        {
+            var controller = new FeedbackController(_talksApi);
+
+            var viewResult = (ViewResult)controller.Index(_viewModel);
+
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ViewName, Is.EqualTo("_feedbackSavedSuccessfully"));
+            A.CallTo(() 
+                => _talksApi.PostFeedbackForm(
+                    _easyAccessKey, 
+                    A<FeedbackResponse>.Ignored)).MustHaveHappened();
+        }
+
+        [Test]
+        [Ignore("Checking on Postback not implemented yet")]
+        public void AndFeedbackIsPosted_ThenViewModelIsValidatedCorrectly()
+        {
+            var expectedMessage = "Please provide an answer to this question";
+
+            var controller = new FeedbackController(_talksApi);
+
+            var validationErrors = CheckForValidationErrors(controller, _viewModel);
+
+            var actionResult = (ViewResult)controller.Index(_viewModel);
+            var modelState = controller.ModelState;
+
+            Assert.That(validationErrors.Count, Is.EqualTo(1));
+            Assert.That(validationErrors[0].ErrorMessage, Is.EqualTo(expectedMessage));
+
+            Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
+        }
+
+        private static FeedbackFormViewModel CreateFeedbackViewModelStub(string _easyAccessKey)
+        {
+            var temp = TalksApiStubResponse.GetTalkByEasyAccessKey("12345");
             var viewModel = new FeedbackFormViewModel();
             viewModel.TalkId = temp.TalkId;
             viewModel.TalkName = temp.TalkName;
             viewModel.SpeakerName = temp.SpeakerName;
+            viewModel.EasyAccessKey = _easyAccessKey;
 
             viewModel.Questionnaire = temp.Questionnaire.Select(x => new QuestionViewModel
             {
@@ -90,6 +84,26 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             }).ToList();
 
             return viewModel;
+        }
+
+        private FeedbackResponse CreateFeedbackViewModelResponse(FeedbackFormViewModel model)
+        {
+            var response = new FeedbackResponse
+            {
+                TalkId = model.TalkId,
+                ReviewerId = "",
+                Questionnaire = model.Questionnaire.Select(x => new Question
+                {
+                    QuestionId = x.QuestionId,
+                    IsRequired = x.IsRequired,
+                    QuestionText = x.QuestionText,
+                    AnswerType = x.AnswerType,
+                    Answer = x.Answer
+                }).ToList(),
+                SubmissionTime = _expectedDateTime
+            };
+
+            return response;
         }
 
         private static IList<ValidationResult> CheckForValidationErrors(FeedbackController controller, FeedbackFormViewModel model)

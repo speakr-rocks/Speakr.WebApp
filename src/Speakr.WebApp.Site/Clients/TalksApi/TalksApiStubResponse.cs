@@ -5,7 +5,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public static class TalksApiStubResponse
     {
-        public static FeedbackForm GetTalkById(int talkId)
+        public static FeedbackForm GetTalkByEasyAccessKey(string easyAccessKey)
         {
             var questionList = new List<Question>
             {
@@ -65,26 +65,13 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
             };
 
             return new FeedbackForm()
-                {
-                    TalkId = talkId,
-                    TalkName = "My First Talk",
-                    SpeakerName = "J-Wow",
-                    Questionnaire = questionList
-                };
+            {
+                TalkId = 99999999,
+                EasyAccessKey = easyAccessKey,
+                TalkName = "My First Talk",
+                SpeakerName = "J-Wow",
+                Questionnaire = questionList
+            };
         }
-
-        //public static FeedbackResponse ReviewFormResponseModelMock(string talkId)
-        //{
-            //var model = GetTalkById(talkId);
-
-            //var response = new FeedbackResponse()
-            //{
-            //    Questionnaire = model.Questionnaire,
-            //    ReviewerId = "",
-            //    SubmissionTime = DateTime.Now
-            //};
-
-            //return response;
-        //}
     }
 }

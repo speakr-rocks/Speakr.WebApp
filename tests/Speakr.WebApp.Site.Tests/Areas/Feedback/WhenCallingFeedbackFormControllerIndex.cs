@@ -6,7 +6,6 @@ using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using Speakr.WebApp.Site.Controllers;
 using Speakr.WebApp.Site.ViewModels.Feedback;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
@@ -61,17 +60,19 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         [Test]
         public void AndTalkIsNotFound_ThenIndexRedirectsToTalkNotFound()
         {
-            A.CallTo(() => _talksApi.GetFeedbackFormByEasyAccessKey("12345"))
-                .Returns(new FeedbackForm());
+            var notFoundKey = "not the key you are looking for";
+
+            A.CallTo(() => _talksApi.GetFeedbackFormByEasyAccessKey(notFoundKey))
+                .Returns(null);
 
             var controller = new FeedbackController(_talksApi);
-            var actionResult = controller.Index("12345");
+            var actionResult = controller.Index(notFoundKey);
             var viewResult = (RedirectToActionResult)actionResult;
 
             Assert.That(viewResult, Is.Not.Null);
             Assert.That(viewResult.ActionName, Is.EqualTo("TalkNotFound"));
             Assert.That(viewResult.ControllerName, Is.EqualTo("Home"));
-            Assert.That(viewResult.RouteValues["EasyAccessKey"], Is.EqualTo("12345"));
+            Assert.That(viewResult.RouteValues["EasyAccessKey"], Is.EqualTo(notFoundKey));
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Speakr.WebApp.Site.Services.Feedback;
 using Speakr.WebApp.Site.ViewModels.Feedback;
-using System.Threading.Tasks;
 using System;
 using Speakr.WebApp.Site.Clients.TalksApi.DTO;
 using Speakr.WebApp.Site.Clients.TalksApi;
 using System.Linq;
+using System.Net.Http;
 
 namespace Speakr.WebApp.Site.Controllers
 {
@@ -29,6 +28,14 @@ namespace Speakr.WebApp.Site.Controllers
                 return RedirectToAction("TalkNotFound", "Home", new { EasyAccessKey = easyAccessKey });
 
             return View("Index", feedbackForm);
+        }
+
+        [HttpPost]
+        [Route("")]
+        public IActionResult Index(FeedbackFormViewModel feedbackFormAnswers)
+        {
+            var feedbackSubmissionResponse = PostFeedbackAnswers(feedbackFormAnswers);
+            return View("_feedbackSavedSuccessfully");
         }
 
         private FeedbackFormViewModel GetFeedbackForm(string easyAccessKey)
@@ -60,6 +67,29 @@ namespace Speakr.WebApp.Site.Controllers
             }).ToList();
 
             return viewModel;
+        }
+
+        private HttpResponseMessage PostFeedbackAnswers(FeedbackFormViewModel feedbackFormAnswers)
+        {
+            var easyAccessKey = feedbackFormAnswers.EasyAccessKey;
+
+            var feedbackResponse = new FeedbackResponse
+            {
+                TalkId = feedbackFormAnswers.TalkId,
+                ReviewerId = "",
+                Questionnaire = feedbackFormAnswers.Questionnaire.Select(x => new Question
+                {
+                    QuestionId = x.QuestionId,
+                    IsRequired = x.IsRequired,
+                    QuestionText = x.QuestionText,
+                    AnswerType = x.AnswerType,
+                    Answer = x.Answer
+                }).ToList(),
+                SubmissionTime = DateTime.Now
+            };
+
+            var feedbackSubmissionResponse = _talksApi.PostFeedbackForm(easyAccessKey, feedbackResponse);
+            return feedbackSubmissionResponse;
         }
     }
 }

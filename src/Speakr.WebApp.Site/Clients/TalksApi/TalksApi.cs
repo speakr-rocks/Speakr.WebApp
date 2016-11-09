@@ -1,7 +1,6 @@
 ﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System.Threading.Tasks;
-using System;
 using System.Diagnostics;
+using System.Net.Http;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
@@ -27,11 +26,10 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
             return Get<FeedbackForm>($"talks/{easyAccessKey}/FeedbackForm");
         }
 
-        public void PostFeedbackForm(int easyAccessKey, FeedbackResponse response)
+        public HttpResponseMessage PostFeedbackForm(string easyAccessKey, FeedbackResponse response)
         {
-
-            Debug.WriteLine($"Posting on client: {_httpClient.GetHashCode()}");
             // POST ~/talks/{easyAccessKey}/FeedbackForm
+            return new HttpResponseMessage();
         }
     }
 }
