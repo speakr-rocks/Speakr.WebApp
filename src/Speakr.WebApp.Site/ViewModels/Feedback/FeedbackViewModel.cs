@@ -1,15 +1,14 @@
-﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Speakr.WebApp.Site.ViewModels.Feedback
 {
-    public class FeedbackViewModel
+    public class FeedbackFormViewModel
     {
-        public string TalkId { get; set; }
+        public int TalkId { get; set; }
+        public string EasyAccessKey { get; set; }
         public string TalkName { get; set; }
-        public string SpeakerId { get; set; }
+        public string Description { get; set; }
         public string SpeakerName { get; set; }
-
         public IList<QuestionViewModel> Questionnaire { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public interface ITalksApi
     {
-        Task<FeedbackForm> GetTalkById(string talkId);
-        Task PostReviewResponse(string talkdId, FeedbackResponse response);
+        FeedbackForm GetFeedbackFormByEasyAccessKey(string talkId);
+        HttpResponseMessage PostFeedbackForm(string easyAccessKey, FeedbackResponse response);
     }
 }

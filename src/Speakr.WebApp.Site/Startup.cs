@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Speakr.WebApp.Site.Clients.TalksApi;
-using Speakr.WebApp.Site.Services.Feedback;
-using Speakr.WebApp.Site.Services.ReviewForm;
+//using Speakr.WebApp.Site.Services.ReviewForm;
 using System.IO;
 
 namespace Speakr.WebApp
@@ -26,9 +25,9 @@ namespace Speakr.WebApp
         {
             services.AddMvc();
 
-            services.AddScoped<ITalksApi, TalksApi>();
+            services.AddSingleton<ITalksApi>(ApiClient => new TalksApi("http://talksapi.speakr.rocks"));
 
-            services.AddScoped<IFeedbackFormService, FeedbackFormService>();
+            //services.AddScoped<IFeedbackFormService, FeedbackFormService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -7,13 +7,8 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
 {
     public class WhenCallingHomeController
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
-        public void Index_ShouldNotReturnNull()
+        public void Index_Returns200AndTheCorrectView()
         {
             var controller = new HomeController();
             var actionResult = (ViewResult)controller.Index();
@@ -23,7 +18,7 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
         }
 
         [Test]
-        public void TalkNotFound_ShouldReturnModelWithErrorMessage()
+        public void TalkNotFound_Returns200AndModelWithErrorMessage()
         {
             var controller = new HomeController();
             var actionResult = (ViewResult)controller.TalkNotFound("12345");
@@ -31,8 +26,8 @@ namespace Speakr.WebApp.Site.Tests.Areas.Home
 
             Assert.That(actionResult, Is.Not.Null);
             Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
-            Assert.That(modelResult.TalkId, Is.EqualTo("12345"));
-            Assert.That(modelResult.TalkIdErrorMessage, Is.EqualTo("Talk not found"));
+            Assert.That(modelResult.EasyAccessKey, Is.EqualTo("12345"));
+            Assert.That(modelResult.EasyAccessKeyErrorMessage, Is.EqualTo("Talk not found"));
         }
     }
 }

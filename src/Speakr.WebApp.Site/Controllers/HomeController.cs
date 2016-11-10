@@ -13,23 +13,23 @@ namespace Speakr.WebApp.Controllers
         }
 
         [Route("TalkNotFound")]
-        public IActionResult TalkNotFound(string TalkId)
+        public IActionResult TalkNotFound(string easyAccessKey)
         {
             var model = new GetFeedbackFormViewModel()
             {
-                TalkId = TalkId,
-                TalkIdErrorMessage = "Talk not found"
+                EasyAccessKey = easyAccessKey,
+                EasyAccessKeyErrorMessage = "Talk not found"
             };
 
             return View("Index", model);
         }
 
         [HttpPost]
-        public IActionResult CheckTalkIdCode(GetFeedbackFormViewModel model)
+        public IActionResult CheckEasyAccessKey(GetFeedbackFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "feedback", new { TalkId = model.TalkId });
+                return RedirectToAction("Index", "feedback", new { EasyAccessKey = model.EasyAccessKey });
             }
 
             return View("Index", model);

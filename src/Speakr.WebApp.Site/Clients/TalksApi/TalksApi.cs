@@ -1,18 +1,35 @@
 ﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Net.Http;
 
 namespace Speakr.WebApp.Site.Clients.TalksApi
 {
-    public class TalksApi : ITalksApi
+    public class TalksApi : RestClient, ITalksApi
     {
-        public async Task<FeedbackForm> GetTalkById(string talkId)
+        public TalksApi(string baseUrl) : base(baseUrl)
         {
-            return await Task.FromResult(TalksApiStubResponse.GetTalkById(talkId));
+            Debug.WriteLine("Created TalksApi Http Client");
         }
 
-        public async Task PostReviewResponse(string talkId, FeedbackResponse response)
+        public void PostTalk(Talk requestBody)
         {
-            // POST ~api/talks/{talkId}/responses
+            // POST ~/talks
+        }
+
+        public Talk GetTalkById(int talkId)
+        {
+            return Get<Talk>($"talks?talkid={talkId}");
+        }
+
+        public FeedbackForm GetFeedbackFormByEasyAccessKey(string easyAccessKey)
+        {
+            return Get<FeedbackForm>($"talks/{easyAccessKey}/FeedbackForm");
+        }
+
+        public HttpResponseMessage PostFeedbackForm(string easyAccessKey, FeedbackResponse response)
+        {
+            // POST ~/talks/{easyAccessKey}/FeedbackForm
+            return new HttpResponseMessage();
         }
     }
 }

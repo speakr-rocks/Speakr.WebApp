@@ -1,8 +1,5 @@
 ﻿using Speakr.WebApp.Site.Clients.TalksApi.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.ViewModels.Feedback
 {
@@ -11,7 +8,7 @@ namespace Speakr.WebApp.Site.ViewModels.Feedback
         public string QuestionId { get; set; }
         public bool IsRequired { get; set; }
         public string QuestionText { get; set; }
-        public AnswerTypes ResponseType { get; set; }
+        public AnswerTypes AnswerType { get; set; }
         public string Answer { get; set; }
 
         public class Option

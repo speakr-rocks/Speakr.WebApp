@@ -1,17 +1,18 @@
-﻿@model FeedbackViewModel
+﻿@model FeedbackFormViewModel
 @using Speakr.WebApp.Site.Clients.TalksApi
 
 <form asp-controller="feedback" asp-action="Index" method="post">
     @Html.HiddenFor(m => m.TalkId)
+    @Html.HiddenFor(m => m.EasyAccessKey)
     @Html.HiddenFor(m => m.TalkName)
-    @Html.HiddenFor(m => m.SpeakerId)
+    @Html.HiddenFor(m => m.Description)
     @Html.HiddenFor(m => m.SpeakerName)
 
     @for (int i = 0; i < Model.Questionnaire.Count; i++)
     {
         @Html.HiddenFor(q => Model.Questionnaire[i].QuestionId)
         @Html.HiddenFor(q => Model.Questionnaire[i].QuestionText)
-        @Html.HiddenFor(q => Model.Questionnaire[i].ResponseType)
+        @Html.HiddenFor(q => Model.Questionnaire[i].AnswerType)
         @Html.HiddenFor(q => Model.Questionnaire[i].IsRequired)
 
         <div class="form-group">
@@ -19,7 +20,7 @@
             <label class="control-label">@Model.Questionnaire[i].QuestionText</label>
 
             <div>
-                @switch (Model.Questionnaire[i].ResponseType)
+                @switch (Model.Questionnaire[i].AnswerType)
                 {
                     case AnswerTypes.Text:
                         <textarea asp-for="@Model.Questionnaire[i].Answer" required="@Model.Questionnaire[i].IsRequired" class="form-control"></textarea>
