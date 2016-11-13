@@ -28,8 +28,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 
         public HttpResponseMessage PostFeedbackForm(string easyAccessKey, FeedbackResponse response)
         {
-            // POST ~/talks/{easyAccessKey}/FeedbackForm
-            return new HttpResponseMessage();
+            return Post($"talks/{easyAccessKey}/Reviews", response);
         }
     }
 }
