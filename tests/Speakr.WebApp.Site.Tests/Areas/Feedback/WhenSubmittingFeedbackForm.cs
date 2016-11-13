@@ -10,6 +10,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System;
 using Speakr.WebApp.Site.Clients.TalksApi.DTO;
+using System.Net.Http;
+using System.Net;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
@@ -34,6 +36,11 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         [Test]
         public void AndFeedbackIsSuccessfullyPosted_ThenShouldRedirectSuccessfully()
         {
+            A.CallTo(() => _talksApi.PostFeedbackForm(
+                    _easyAccessKey,
+                    A<FeedbackResponse>.Ignored))
+             .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.Created});
+
             var controller = new FeedbackController(_talksApi);
 
             var viewResult = (ViewResult)controller.Index(_viewModel);
@@ -44,6 +51,25 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
                 => _talksApi.PostFeedbackForm(
                     _easyAccessKey, 
                     A<FeedbackResponse>.Ignored)).MustHaveHappened();
+        }
+
+        [Test]
+        public void AndTalksApiCannotSaveReview_ThenShouldRedirectWithError()
+        {
+            A.CallTo(() => _talksApi.PostFeedbackForm(
+                    _easyAccessKey,
+                    A<FeedbackResponse>.Ignored))
+             .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict, ReasonPhrase = "Couldn't Find Talk" });
+
+            var controller = new FeedbackController(_talksApi);
+
+            var viewResult = (RedirectToActionResult)controller.Index(_viewModel);
+            var errorMessage = (string)viewResult.RouteValues["ErrorMessage"];
+
+            Assert.That(viewResult, Is.Not.Null);
+            Assert.That(viewResult.ActionName, Is.EqualTo("Index"));
+            Assert.That(viewResult.ControllerName, Is.EqualTo("Feedback"));
+            Assert.That(errorMessage, Is.EqualTo("Couldn't Find Talk"));
         }
 
         [Test]

@@ -35,7 +35,14 @@ namespace Speakr.WebApp.Site.Controllers
         public IActionResult Index(FeedbackFormViewModel feedbackFormAnswers)
         {
             var feedbackSubmissionResponse = PostFeedbackAnswers(feedbackFormAnswers);
+
+            if (feedbackSubmissionResponse.StatusCode != System.Net.HttpStatusCode.Created)
+            {
+                feedbackFormAnswers.ErrorMessage = feedbackSubmissionResponse.ReasonPhrase;
+                return RedirectToAction("Index", "Feedback", feedbackFormAnswers);
+            }
             return View("_feedbackSavedSuccessfully");
+            // Can't just redirect, need to forward an error somehow!!
         }
 
         private FeedbackFormViewModel GetFeedbackForm(string easyAccessKey)
