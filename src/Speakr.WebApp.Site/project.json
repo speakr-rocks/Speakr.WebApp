@@ -1,7 +1,7 @@
 {
     "dependencies": {
         "Microsoft.NETCore.App": {
-            "version": "1.0.0",
+            "version": "1.1.0",
             "type": "platform"
         },
 
@@ -23,11 +23,7 @@
     },
 
     "frameworks": {
-        "netcoreapp1.0": {
-            "imports": [
-                "dotnet5.6",
-                "portable-net45+win8"
-            ]
+        "netcoreapp1.1": {
         }
     },
 
