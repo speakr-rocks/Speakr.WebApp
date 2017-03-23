@@ -32,16 +32,16 @@ namespace Speakr.WebApp.Site.Controllers
 
         [HttpPost]
         [Route("")]
-        public IActionResult Index(FeedbackFormViewModel feedbackFormAnswers)
+        public IActionResult Index(FeedbackFormViewModel review)
         {
-            var feedbackSubmissionResponse = PostFeedbackAnswers(feedbackFormAnswers);
+            var reviewSubmissionResponse = PostReview(review);
 
-            if (feedbackSubmissionResponse.StatusCode != System.Net.HttpStatusCode.Created)
+            if (reviewSubmissionResponse.StatusCode != System.Net.HttpStatusCode.Created)
             {
-                feedbackFormAnswers.ErrorMessage = feedbackSubmissionResponse.ReasonPhrase;
-                return RedirectToAction("Index", "Feedback", feedbackFormAnswers);
+                review.ErrorMessage = reviewSubmissionResponse.ReasonPhrase;
+                return RedirectToAction("Index", "Feedback", review);
             }
-            return View("_feedbackSavedSuccessfully");
+            return View("_reviewSavedSuccessfully");
             // Can't just redirect, need to forward an error somehow!!
         }
 
@@ -76,11 +76,11 @@ namespace Speakr.WebApp.Site.Controllers
             return viewModel;
         }
 
-        private HttpResponseMessage PostFeedbackAnswers(FeedbackFormViewModel feedbackFormAnswers)
+        private HttpResponseMessage PostReview(FeedbackFormViewModel feedbackFormAnswers)
         {
-            var easyAccessKey = feedbackFormAnswers.EasyAccessKey;
+            var talkId = feedbackFormAnswers.TalkId;
 
-            var feedbackResponse = new FeedbackResponse
+            var feedbackResponse = new ReviewResponse
             {
                 TalkId = feedbackFormAnswers.TalkId,
                 ReviewerId = "",
@@ -95,7 +95,7 @@ namespace Speakr.WebApp.Site.Controllers
                 SubmissionTime = DateTime.Now
             };
 
-            var feedbackSubmissionResponse = _talksApi.PostFeedbackForm(easyAccessKey, feedbackResponse);
+            var feedbackSubmissionResponse = _talksApi.PostReviewForTalk(talkId, feedbackResponse);
             return feedbackSubmissionResponse;
         }
     }

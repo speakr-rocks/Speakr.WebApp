@@ -18,17 +18,17 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 
         public Talk GetTalkById(int talkId)
         {
-            return Get<Talk>($"talks?talkid={talkId}");
+            return Get<Talk>($"talks/{talkId}");
         }
 
         public FeedbackForm GetFeedbackFormByEasyAccessKey(string easyAccessKey)
         {
-            return Get<FeedbackForm>($"talks/{easyAccessKey}/FeedbackForm");
+            return Get<FeedbackForm>($"feedbackform?key={easyAccessKey}");
         }
 
-        public HttpResponseMessage PostFeedbackForm(string easyAccessKey, FeedbackResponse response)
+        public HttpResponseMessage PostReviewForTalk(int talkId, ReviewResponse response)
         {
-            return Post($"talks/{easyAccessKey}/Reviews", response);
+            return Post($"talks/{talkId}/reviews", response);
         }
     }
 }
