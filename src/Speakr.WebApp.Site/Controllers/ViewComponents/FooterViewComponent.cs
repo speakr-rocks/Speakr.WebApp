@@ -11,7 +11,7 @@ namespace Speakr.WebApp.Site.Controllers.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("Footer");
+            return await Task.FromResult(View("Footer"));
         }
     }
 }
