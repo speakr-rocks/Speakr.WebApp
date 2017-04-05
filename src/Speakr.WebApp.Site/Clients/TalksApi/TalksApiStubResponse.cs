@@ -5,7 +5,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 {
     public static class TalksApiStubResponse
     {
-        public static FeedbackForm GetTalkByEasyAccessKey(string easyAccessKey)
+        public static FeedbackForm GetTalkByEasyAccessKey(string easyAccessKey = "sad_einstein", int talkId = 12345)
         {
             var questionList = new List<Question>
             {
@@ -66,7 +66,7 @@ namespace Speakr.WebApp.Site.Clients.TalksApi
 
             return new FeedbackForm()
             {
-                TalkId = 99999999,
+                TalkId = talkId,
                 EasyAccessKey = easyAccessKey,
                 TalkName = "My First Talk",
                 SpeakerName = "J-Wow",

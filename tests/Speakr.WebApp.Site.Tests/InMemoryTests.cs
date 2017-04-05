@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using NUnit.Framework;
-using System.IO;
+using Speakr.WebApp.AppStart;
 
 namespace Speakr.WebApp.Site.Tests
 {
@@ -14,15 +14,13 @@ namespace Speakr.WebApp.Site.Tests
         [SetUp]
         public void SetupInMemoryHost()
         {
-            _server = new TestServer(
-                new WebHostBuilder()
-                    .UseContentRoot(Directory.GetCurrentDirectory())
+            _server = new TestServer(new WebHostBuilder()
                     .UseStartup<Startup>());
+
             _client = _server.CreateClient();
         }
 
         [Test]
-        [Ignore("AppEnvironment is not accessible on Travis CI")]
         public void HomeControllerIndexShouldNotBeNull()
         {
             Assert.That(_client.GetAsync("/"), Is.Not.Null);

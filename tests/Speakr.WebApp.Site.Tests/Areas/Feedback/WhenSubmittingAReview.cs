@@ -15,12 +15,13 @@ using System.Net;
 
 namespace Speakr.WebApp.Site.Tests.Areas.Feedback
 {
-    public class WhenSubmittingFeedbackForm
+    public class WhenSubmittingAReview
     {
         private ITalksApi _talksApi;
         private DateTime _expectedDateTime;
         private FeedbackFormViewModel _viewModel;
-        private FeedbackResponse _expectedResponse;
+        private ReviewResponse _expectedResponse;
+        private int _talkId;
         private string _easyAccessKey;
 
         [SetUp]
@@ -28,17 +29,18 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
         {
             _talksApi = A.Fake<ITalksApi>();
             _expectedDateTime = DateTime.Now;
-            _easyAccessKey = "talk_key";
-            _viewModel = CreateFeedbackViewModelStub(_easyAccessKey);
+            _talkId = 9999;
+            _easyAccessKey = "sad_einstein";
+            _viewModel = CreateFeedbackViewModelStub();
             _expectedResponse = CreateFeedbackViewModelResponse(_viewModel);
         }
 
         [Test]
         public void AndFeedbackIsSuccessfullyPosted_ThenShouldRedirectSuccessfully()
         {
-            A.CallTo(() => _talksApi.PostFeedbackForm(
-                    _easyAccessKey,
-                    A<FeedbackResponse>.Ignored))
+            A.CallTo(() => _talksApi.PostReviewForTalk(
+                    _talkId,
+                    A<ReviewResponse>.Ignored))
              .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.Created});
 
             var controller = new FeedbackController(_talksApi);
@@ -46,19 +48,19 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             var viewResult = (ViewResult)controller.Index(_viewModel);
 
             Assert.That(viewResult, Is.Not.Null);
-            Assert.That(viewResult.ViewName, Is.EqualTo("_feedbackSavedSuccessfully"));
+            Assert.That(viewResult.ViewName, Is.EqualTo("_reviewSavedSuccessfully"));
             A.CallTo(() 
-                => _talksApi.PostFeedbackForm(
-                    _easyAccessKey, 
-                    A<FeedbackResponse>.Ignored)).MustHaveHappened();
+                => _talksApi.PostReviewForTalk(
+                    _talkId, 
+                    A<ReviewResponse>.Ignored)).MustHaveHappened();
         }
 
         [Test]
         public void AndTalksApiCannotSaveReview_ThenShouldRedirectWithError()
         {
-            A.CallTo(() => _talksApi.PostFeedbackForm(
-                    _easyAccessKey,
-                    A<FeedbackResponse>.Ignored))
+            A.CallTo(() => _talksApi.PostReviewForTalk(
+                    _talkId,
+                    A<ReviewResponse>.Ignored))
              .Returns(new HttpResponseMessage { StatusCode = HttpStatusCode.Conflict, ReasonPhrase = "Couldn't Find Talk" });
 
             var controller = new FeedbackController(_talksApi);
@@ -91,14 +93,14 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             Assert.That(actionResult.ViewName, Is.EqualTo("Index"));
         }
 
-        private static FeedbackFormViewModel CreateFeedbackViewModelStub(string _easyAccessKey)
+        private FeedbackFormViewModel CreateFeedbackViewModelStub()
         {
-            var temp = TalksApiStubResponse.GetTalkByEasyAccessKey("12345");
+            var temp = TalksApiStubResponse.GetTalkByEasyAccessKey(_easyAccessKey, _talkId);
             var viewModel = new FeedbackFormViewModel();
             viewModel.TalkId = temp.TalkId;
             viewModel.TalkName = temp.TalkName;
             viewModel.SpeakerName = temp.SpeakerName;
-            viewModel.EasyAccessKey = _easyAccessKey;
+            viewModel.EasyAccessKey = temp.EasyAccessKey;
 
             viewModel.Questionnaire = temp.Questionnaire.Select(x => new QuestionViewModel
             {
@@ -112,9 +114,9 @@ namespace Speakr.WebApp.Site.Tests.Areas.Feedback
             return viewModel;
         }
 
-        private FeedbackResponse CreateFeedbackViewModelResponse(FeedbackFormViewModel model)
+        private ReviewResponse CreateFeedbackViewModelResponse(FeedbackFormViewModel model)
         {
-            var response = new FeedbackResponse
+            var response = new ReviewResponse
             {
                 TalkId = model.TalkId,
                 ReviewerId = "",
