@@ -4,7 +4,7 @@
 & "C:\Program Files\dotnet\dotnet.exe" restore
 
 # Publish application with all of its dependencies and runtime for IIS to use
-& "C:\Program Files\dotnet\dotnet.exe" publish --framework netcoreapp1.0 --configuration Release -o c:\Speakr.WebApp\publish
+& "C:\Program Files\dotnet\dotnet.exe" publish --framework netcoreapp1.1 --configuration Release -o c:\Speakr.WebApp\publish
 
 
 # Point IIS wwwroot of the published folder. CodeDeploy uses 32 bit version of PowerShell.
