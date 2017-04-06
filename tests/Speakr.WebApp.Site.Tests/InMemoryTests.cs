@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using NUnit.Framework;
 using Speakr.WebApp.AppStart;
+using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Tests
 {
@@ -21,9 +22,15 @@ namespace Speakr.WebApp.Site.Tests
         }
 
         [Test]
-        public void HomeControllerIndexShouldNotBeNull()
+        [Ignore("Find out how to mock Auth0 and pass in dummy Auth0 creds via appsettings")]
+        public async Task HomeControllerIndexShouldNotBeNull()
         {
-            Assert.That(_client.GetAsync("/"), Is.Not.Null);
+            var response = await _client.GetAsync("/");
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Assert.That(responseString, Is.Not.Null);
         }
 
     }
