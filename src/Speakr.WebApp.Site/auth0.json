@@ -1,0 +1,8 @@
+{
+  "Auth0": {
+    "Domain": "{DOMAIN}",
+    "ClientId": "{CLIENT_ID}",
+    "ClientSecret": "{CLIENT_SECRET}",
+    "CallbackUrl": "http://localhost:60856/signin-auth0"
+  }
+}
