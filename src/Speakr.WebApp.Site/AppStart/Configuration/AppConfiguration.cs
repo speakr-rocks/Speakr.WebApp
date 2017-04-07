@@ -11,6 +11,7 @@ namespace Speakr.WebApp.Site.AppStart.Configuration
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("auth0.json", optional: false)
                 .AddEnvironmentVariables();
 
             return builder.Build();

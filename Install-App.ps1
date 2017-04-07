@@ -1,5 +1,13 @@
 ﻿cd C:\Speakr.WebApp\src\Speakr.WebApp.Site
 
+# Get secrets from S3
+C:\Windows\sysnative\WindowsPowerShell\v1.0\powershell.exe -Command 
+{
+	Set-ExecutionPolicy RemoteSigned; 
+	Import-Module AWSPowerShell; 
+	Read-S3Object -BucketName speakr-ec2secrets -Key auth0.json -File auth0.json
+}
+
 # Restore the nuget references
 & "C:\Program Files\dotnet\dotnet.exe" restore
 
