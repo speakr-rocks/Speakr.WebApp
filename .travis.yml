@@ -4,6 +4,9 @@ mono: none
 dotnet: 1.0.1
 dist: trusty
 
+env:
+  - ARTIFACT_NAME="$(date +'WebApp-%F')-$TRAVIS_BUILD_ID"
+
 script:
   - dotnet restore
   - dotnet build src/Speakr.WebApp.Site
@@ -12,9 +15,11 @@ script:
   - dotnet run -p tests/Speakr.WebApp.Site.Tests/Speakr.WebApp.Site.Tests.csproj -f netcoreapp1.1
 
 before_deploy:
-  - zip -r $(date +'WebApp-%F').zip *
+  - npm install -g bower
+  - bower install
+  - zip -r $ARTIFACT_NAME.zip *
   - mkdir -p CodeDeploy_Artifacts
-  - mv $(date +'WebApp-%F').zip CodeDeploy_Artifacts/$(date +'WebApp-%F').zip
+  - mv $ARTIFACT_NAME.zip CodeDeploy_Artifacts/$ARTIFACT_NAME.zip
 
 deploy:
   - provider: s3
@@ -32,7 +37,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
     region: eu-west-1
     bucket: speakr-travisbuilds
-    key: WebApp/$(date +'WebApp-%F').zip
+    key: WebApp/$ARTIFACT_NAME.zip
     application: speakr-webapp-codedeploy
     deployment_group: speakr-webapp-codedeploy-Fleet
     on: *2
