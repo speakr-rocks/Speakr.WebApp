@@ -30,8 +30,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.4.337" />
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.306" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.306" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
