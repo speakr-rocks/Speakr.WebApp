@@ -5,7 +5,7 @@ C:\Windows\sysnative\WindowsPowerShell\v1.0\powershell.exe -Command
 {
 	Set-ExecutionPolicy RemoteSigned; 
 	Import-Module AWSPowerShell; 
-	Read-S3Object -BucketName speakr-ec2secrets -Key auth0.json -File c:\Speakr\Secure\auth0.json
+	Read-S3Object -BucketName speakr-ec2secrets -Key auth0.json -File auth0.json
 }
 
 # Restore the nuget references
