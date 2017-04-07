@@ -16,7 +16,7 @@ script:
 
 before_deploy:
   - npm install -g bower
-  - bower install
+  - (cd src/Speakr.WebApp.Site/; bower install)
   - zip -r $ARTIFACT_NAME.zip *
   - mkdir -p CodeDeploy_Artifacts
   - mv $ARTIFACT_NAME.zip CodeDeploy_Artifacts/$ARTIFACT_NAME.zip
