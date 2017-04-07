@@ -34,7 +34,7 @@ namespace Speakr.WebApp.AppStart
             services.AddOptions();
 
             // Add the Auth0 Settings object so it can be injected
-            services.Configure<Auth0Settings>(Configuration.GetSection("Auth0Settings"));
+            services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<Auth0Settings> auth0Settings)
