@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Speakr.WebApp.AppStart;
+using Speakr.WebApp.Site.AppStart;
 
-namespace Speakr.WebApp
+namespace Speakr.WebApp.Site
 {
     public class Program
     {
