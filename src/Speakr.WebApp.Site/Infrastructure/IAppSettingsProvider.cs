@@ -1,4 +1,4 @@
-﻿namespace Speakr.WebApp.Infrastructure
+﻿namespace Speakr.WebApp.Site.Infrastructure
 {
     public interface IAppSettingsProvider
     {

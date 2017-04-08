@@ -6,26 +6,27 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Speakr.WebApp.Site.AppStart;
 using Speakr.WebApp.Site.AppStart.Configuration;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Speakr.WebApp.AppStart
+namespace Speakr.WebApp.Site.AppStart
 {
     public class Startup
     {
         public IConfigurationRoot Configuration;
+        public IHostingEnvironment Environment;
 
         public Startup(IHostingEnvironment env)
         {
             Configuration = AppConfiguration.Configure(env);
+            Environment = env;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCRegistry.RegisterDependencies(services, Configuration);
+            IoCRegistry.RegisterDependencies(services, Configuration, Environment);
 
             services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -37,9 +38,9 @@ namespace Speakr.WebApp.AppStart
             services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<Auth0Settings> auth0Settings)
+        public void Configure(IApplicationBuilder app, IOptions<Auth0Settings> auth0Settings)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

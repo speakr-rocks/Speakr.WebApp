@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using NUnit.Framework;
-using Speakr.WebApp.AppStart;
+using Speakr.WebApp.Site.AppStart;
 using System.Threading.Tasks;
 
 namespace Speakr.WebApp.Site.Tests

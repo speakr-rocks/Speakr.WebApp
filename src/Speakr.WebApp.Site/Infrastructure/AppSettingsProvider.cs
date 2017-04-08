@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Speakr.WebApp.Infrastructure
+namespace Speakr.WebApp.Site.Infrastructure
 {
     public class AppSettingsProvider : IAppSettingsProvider
     {
